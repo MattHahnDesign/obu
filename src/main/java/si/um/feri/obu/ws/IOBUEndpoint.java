@@ -1,12 +1,12 @@
 package si.um.feri.obu.ws;
 
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
-import si.um.feri.obu.model.*;
+import si.um.feri.obu.domain.xjc.*;
 
 @Endpoint
 public interface IOBUEndpoint {
 
-    public GetOBUIdResponse getOBUId();
+    public GetOBUIdResponse getOBUId(GetOBUIdRequest request);
     public GetDriveHistoryResponse getDriveHistory(GetDriveHistoryRequest request);
     public GetLocationResponse getLocation(GetLocationRequest request);
     public ReceiveNotificationResponse receiveNotification(ReceiveNotificationRequest request);

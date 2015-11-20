@@ -4,16 +4,16 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import si.um.feri.obu.model.*;
+import si.um.feri.obu.domain.xjc.*;
 
 @Endpoint
 public class OBUEndpoint implements IOBUEndpoint {
 
     private static final String NAMESPACE_URI = "http://feri.um.si/obu";
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOBUIdRequest")
     @ResponsePayload
-    public GetOBUIdResponse getOBUId() {
+    public GetOBUIdResponse getOBUId(@RequestPayload GetOBUIdRequest request) {
         GetOBUIdResponse response = new GetOBUIdResponse();
         response.setOBUId("fucking id!!!");
         return response;

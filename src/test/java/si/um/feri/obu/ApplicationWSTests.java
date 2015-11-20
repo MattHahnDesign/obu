@@ -10,8 +10,9 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import si.um.feri.obu.model.GetDriveHistoryRequest;
-import si.um.feri.obu.model.ObjectFactory;
+import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
+import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
+import si.um.feri.obu.domain.xjc.ObjectFactory;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +20,9 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(classes = ObuApplication.class)
 @WebIntegrationTest(randomPort = true)
 public class ApplicationWSTests {
+
+    private static final String HOST = "http://localhost:";
+    private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
@@ -32,11 +36,16 @@ public class ApplicationWSTests {
     }
 
     @Test
+    public void testSendAndReceiveOBUId() {
+        GetOBUIdRequest request = new GetOBUIdRequest();
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+    }
+
+    @Test
     public void testSendAndReceiveDriveHistory() {
         GetDriveHistoryRequest request = new GetDriveHistoryRequest();
         request.setOBUId("some_id");
-        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive("http://localhost:" +
-                + port + "/ws", request));
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
 }
