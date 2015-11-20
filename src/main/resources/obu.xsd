@@ -1,4 +1,5 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://feri.um.si/obu" targetNamespace="http://feri.um.si/obu" elementFormDefault="qualified">
+
     <xs:element name="getCarCommandListRequest" type="tns:getCarCommandListRequest"/>
     <xs:element name="getCarCommandListResponse" type="tns:getCarCommandListResponse"/>
     <xs:element name="getCarErrorsRequest" type="tns:getCarErrorsRequest"/>
@@ -156,7 +157,7 @@
            <xs:element name="status" type="xs:int" />
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:simpleType name="carParameter">
         <xs:restriction base="xs:string">
             <xs:enumeration value="FUEL"/>
