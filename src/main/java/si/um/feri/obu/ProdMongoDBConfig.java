@@ -13,12 +13,15 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 @Profile("pro")
 public class ProdMongoDBConfig {
 
+    @Value("${spring.data.mongodb.uri}")
+    private String URI;
+
     @Value("${spring.data.mongodb.database}")
     private String dbName;
 
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
-        return new SimpleMongoDbFactory(new MongoClient(), dbName);
+        return new SimpleMongoDbFactory(new MongoClient(URI), dbName);
     }
 
     @Bean
