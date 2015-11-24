@@ -24,4 +24,4 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # call our own mvn script with the right settings
 cd $OPENSHIFT_REPO_DIR
-./.openshift/mvn package -s .openshift/settings.xml -DskipTests=true
+./.openshift/mvn package -s .openshift/settings.xml -DskipTests=false
