@@ -17,7 +17,8 @@ import org.springframework.xml.xsd.XsdSchema;
 public class WebServiceConfig extends WsConfigurerAdapter {
 
     @Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
+    public ServletRegistrationBean messageDispatcherServlet
+            (ApplicationContext applicationContext) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
@@ -26,7 +27,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 
     @Bean(name = "obu")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema obuSchema) {
-        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        DefaultWsdl11Definition wsdl11Definition = new
+                DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ObuPort");
         wsdl11Definition.setLocationUri("/ws");
         wsdl11Definition.setSchema(obuSchema);

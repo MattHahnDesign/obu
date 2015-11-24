@@ -1,4 +1,5 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://feri.um.si/obu" targetNamespace="http://feri.um.si/obu" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://feri.um.si/obu"
+           targetNamespace="http://feri.um.si/obu" elementFormDefault="qualified">
 
     <xs:element name="getCarCommandListRequest" type="tns:getCarCommandListRequest"/>
     <xs:element name="getCarCommandListResponse" type="tns:getCarCommandListResponse"/>
@@ -21,140 +22,140 @@
 
     <xs:complexType name="getCarCommandListRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarCommandListResponse">
         <xs:sequence>
-            <xs:element name="command" type="tns:carCommand" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="command" type="tns:carCommand" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarErrorsRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarErrorsResponse">
         <xs:sequence>
-            <xs:element name="error" type="tns:carError" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="error" type="tns:carError" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="carError">
         <xs:sequence>
-            <xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="timestamp" type="xs:long" minOccurs="1" maxOccurs="1" />
-            <xs:element name="type" type="tns:carErrorType" minOccurs="1" maxOccurs="1" />
+            <xs:element name="code" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="timestamp" type="xs:long" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="type" type="tns:carErrorType" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarParameterListRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarParameterListResponse">
         <xs:sequence>
-            <xs:element name="carParameter" type="tns:carParameter" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="carParameter" type="tns:carParameter" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarParameterValueRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="carParameter" type="tns:carParameter" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="carParameter" type="tns:carParameter" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getCarParameterValueResponse">
         <xs:sequence>
-            <xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1" />
+            <xs:element name="value" type="xs:float" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getDriveHistoryRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getDriveHistoryResponse">
         <xs:sequence>
-            <xs:element name="track" type="tns:track" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="track" type="tns:track" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="track">
         <xs:sequence>
-            <xs:element name="id" type="xs:string" />
-            <xs:element name="trackPoints" type="tns:trackPoint" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="id" type="xs:string"/>
+            <xs:element name="trackPoints" type="tns:trackPoint" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="trackPoint">
         <xs:sequence>
-            <xs:element name="location" type="tns:geoLocation" />
-            <xs:element name="timestamp" type="xs:long" />
+            <xs:element name="location" type="tns:geoLocation"/>
+            <xs:element name="timestamp" type="xs:long"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="geoLocation">
         <xs:sequence>
-            <xs:element name="lat" type="xs:float" />
-            <xs:element name="lon" type="xs:float" />
+            <xs:element name="lat" type="xs:float"/>
+            <xs:element name="lon" type="xs:float"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getLocationRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="getLocationResponse">
         <xs:sequence>
-            <xs:element name="gepLocation" type="tns:geoLocation" minOccurs="1" maxOccurs="1" />
+            <xs:element name="gepLocation" type="tns:geoLocation" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
-    
+
     <xs:complexType name="getOBUIdRequest">
-        <xs:sequence />
+        <xs:sequence/>
     </xs:complexType>
 
     <xs:complexType name="getOBUIdResponse">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="receiveNotificationRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="message" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="message" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="receiveNotificationResponse">
         <xs:sequence>
-            <xs:element name="status" type="xs:int" />
+            <xs:element name="status" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="sendCarCommandRequest">
         <xs:sequence>
-            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="carCommand" type="tns:carCommand" minOccurs="1" maxOccurs="1" />
-            <xs:element name="commandState" type="tns:commandState" minOccurs="1" maxOccurs="1" />
+            <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="carCommand" type="tns:carCommand" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="commandState" type="tns:commandState" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="sendCarCommandResponse">
         <xs:sequence>
-           <xs:element name="status" type="xs:int" />
+            <xs:element name="status" type="xs:int"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -190,5 +191,5 @@
             <xs:enumeration value="CLOSE"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
 </xs:schema>

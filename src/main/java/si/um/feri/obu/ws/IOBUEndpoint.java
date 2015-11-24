@@ -7,13 +7,26 @@ import si.um.feri.obu.domain.xjc.*;
 public interface IOBUEndpoint {
 
     public GetOBUIdResponse getOBUId(GetOBUIdRequest request);
-    public GetDriveHistoryResponse getDriveHistory(GetDriveHistoryRequest request);
+
+    public GetDriveHistoryResponse getDriveHistory(GetDriveHistoryRequest
+                                                           request);
+
     public GetLocationResponse getLocation(GetLocationRequest request);
-    public ReceiveNotificationResponse receiveNotification(ReceiveNotificationRequest request);
-    public GetCarParameterListResponse getCarParameterList(GetCarParameterListRequest request);
-    public GetCarParameterValueResponse getCarParameterValue(GetCarParameterValueRequest request);
-    public GetCarCommandListResponse getCarCommandList(GetCarCommandListRequest request);
+
+    public ReceiveNotificationResponse receiveNotification
+            (ReceiveNotificationRequest request);
+
+    public GetCarParameterListResponse getCarParameterList
+            (GetCarParameterListRequest request);
+
+    public GetCarParameterValueResponse getCarParameterValue
+            (GetCarParameterValueRequest request);
+
+    public GetCarCommandListResponse getCarCommandList
+            (GetCarCommandListRequest request);
+
     public SendCarCommandResponse sendCarCommand(SendCarCommandRequest request);
+
     public GetCarErrorsResponse getCarErrors(GetCarErrorsRequest request);
 
 }

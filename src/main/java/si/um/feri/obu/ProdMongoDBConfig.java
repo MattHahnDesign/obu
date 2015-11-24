@@ -17,8 +17,10 @@ public class ProdMongoDBConfig {
     @Value("${spring.data.mongodb.database}")
     private String dbName;
 
-    @Bean MongoClient mongoClient() throws Exception {
-        return new MongoClient(new MongoClientURI(System.getenv("OPENSHIFT_MONGODB_DB_URL")));
+    @Bean
+    MongoClient mongoClient() throws Exception {
+        return new MongoClient(new MongoClientURI(System.getenv
+                ("OPENSHIFT_MONGODB_DB_URL")));
     }
 
     @Bean
