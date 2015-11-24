@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @WebIntegrationTest(randomPort = true)
 public class ApplicationWSTests {
 
-    private static final String HOST = "http://localhost:";
+    private static final String HOST = "http://127.0.0.1:";
     private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
