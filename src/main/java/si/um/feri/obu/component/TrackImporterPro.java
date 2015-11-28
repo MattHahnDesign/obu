@@ -25,11 +25,10 @@ public class TrackImporterPro implements CommandLineRunner {
     private Logger log = Logger.getLogger(TrackImporterPro.class.getName());
 
     @Autowired
-    private ResourceLoader resourceLoader;
-
-    @Autowired
     private TrackRepository trackRepository;
 
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     @Override
     public void run(String... strings) throws Exception {
