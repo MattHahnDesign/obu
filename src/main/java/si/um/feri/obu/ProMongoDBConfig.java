@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 @Configuration
-@Profile("production")
-public class ProdMongoDBConfig {
+@Profile("pro")
+public class ProMongoDBConfig {
 
     @Value("${spring.data.mongodb.database}")
     private String dbName;
