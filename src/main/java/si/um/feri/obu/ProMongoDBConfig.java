@@ -17,10 +17,12 @@ public class ProMongoDBConfig {
     @Value("${spring.data.mongodb.database}")
     private String dbName;
 
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoURI;
+
     @Bean
     MongoClient mongoClient() throws Exception {
-        return new MongoClient(new MongoClientURI(System.getenv
-                ("OPENSHIFT_MONGODB_DB_URL")));
+        return new MongoClient(new MongoClientURI(mongoURI));
     }
 
     @Bean
