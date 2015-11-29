@@ -1,4 +1,4 @@
-box: mihkels/box-java8-oracle
+box: mihkels/java8-oracle
 services:
   - wercker/mongodb
 build:
