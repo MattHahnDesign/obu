@@ -1,6 +1,6 @@
 box: rest4hub/docker-oracle-java8-mvn-3.3.3
 services:
-  - wercker/mongodb
+  - mongo
 build:
   steps:
     - script:
