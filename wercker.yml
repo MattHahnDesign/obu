@@ -2,7 +2,7 @@ box: mihkels/java8-oracle@0.0.1
 services:
   - wercker/mongodb
 build:
-	steps:
+  steps:
     - script:
         name: Show base information
         code: |
