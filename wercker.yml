@@ -1,0 +1,17 @@
+box: mihkels/java8-oracle@0.0.1
+services:
+  - wercker/mongodb
+build:
+  steps:
+    - script:
+        name: Show base information
+          code: |
+            mvn --version
+            echo $JAVA_HOME
+            java -version
+            javac -version
+      - script:
+          name: Run mvn
+          code: |
+            mvn clean package -Ppro
+
