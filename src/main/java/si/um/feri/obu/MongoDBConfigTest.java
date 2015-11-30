@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 @Configuration
-@Profile("pro")
+@Profile("test")
 public class MongoDBConfigTest {
 
     @Value("${spring.data.mongodb.database}")
