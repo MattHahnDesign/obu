@@ -29,13 +29,13 @@ public class WSEndpointTestTest {
 
     private Logger log = Logger.getLogger(WSEndpointTestTest.class.getName());
 
-    private static String HOST = "";
+    private static final String HOST = "http://127.0.0.1:";
     private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
     @Value("${local.server.port}")
-    private int port = 80;
+    private int port;
 
     @Before
     public void init() throws Exception {
@@ -55,9 +55,7 @@ public class WSEndpointTestTest {
     public void testSendAndReceiveOBUId() {
         GetOBUIdRequest request = new GetOBUIdRequest();
         assertNotNull(new WebServiceTemplate(marshaller)
-                .marshalSendAndReceive(request));
-
-        // HOST + port + WS,
+                .marshalSendAndReceive(HOST + port + WS, request));
     }
 
     @Test
