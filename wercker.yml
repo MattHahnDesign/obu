@@ -13,5 +13,5 @@ build:
     - script:
         name: Run Maven package
         code: |
-          mvn clean package -Ptest
+          mvn clean test -Ptest
 

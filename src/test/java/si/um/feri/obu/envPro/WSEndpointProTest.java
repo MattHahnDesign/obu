@@ -1,4 +1,4 @@
-package si.um.feri.obu;
+package si.um.feri.obu.envPro;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import si.um.feri.obu.ObuApplication;
 import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
 import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
 import si.um.feri.obu.domain.xjc.ObjectFactory;
@@ -20,8 +21,8 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ObuApplication.class)
 @WebIntegrationTest("server.port:0")
-@ActiveProfiles("test")
-public class WSEndpointTestTest {
+@ActiveProfiles("pro")
+public class WSEndpointProTest {
 
     @Value("#{systemEnvironment['WERCKER_APPLICATION_URL']}")
     private static String HOST;
@@ -58,5 +59,4 @@ public class WSEndpointTestTest {
     public void testSendAndReceiveGeoLocation() {
 
     }
-
 }
