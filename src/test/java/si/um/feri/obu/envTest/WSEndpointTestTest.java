@@ -29,7 +29,7 @@ public class WSEndpointTestTest {
 
     private Logger log = Logger.getLogger(WSEndpointTestTest.class.getName());
 
-    private static String HOST = System.getenv("WERCKER_BUILD_URL");
+    private static String HOST = "";
     private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
