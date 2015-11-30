@@ -24,8 +24,7 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 public class WSEndpointTestTest {
 
-    @Value("#{systemEnvironment['WERCKER_APPLICATION_URL']}")
-    private static String HOST;
+    private static String HOST = System.getenv("WERCKER_APPLICATION_URL");
     private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
