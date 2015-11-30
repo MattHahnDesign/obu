@@ -20,7 +20,6 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ObuApplication.class)
-@WebIntegrationTest("server.port:0")
 @ActiveProfiles("test")
 public class WSEndpointTestTest {
 
@@ -29,8 +28,7 @@ public class WSEndpointTestTest {
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
-    @Value("${local.server.port}")
-    private int port;
+    private int port = 80;
 
     @Before
     public void init() throws Exception {
