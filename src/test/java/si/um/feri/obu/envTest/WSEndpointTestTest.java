@@ -17,10 +17,13 @@ import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
 import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
 import si.um.feri.obu.domain.xjc.ObjectFactory;
 
+import java.net.InetAddress;
+
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ObuApplication.class)
+@WebIntegrationTest("server.port:0")
 @ActiveProfiles("test")
 public class WSEndpointTestTest {
 
@@ -31,6 +34,7 @@ public class WSEndpointTestTest {
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
+    @Value("${local.server.port}")
     private int port = 80;
 
     @Before
@@ -41,13 +45,19 @@ public class WSEndpointTestTest {
 
         log.info("WERCKER_BUILD_URL=" + System.getenv("WERCKER_BUILD_URL"));
         log.info("WERCKER_APPLICATION_URL=" + System.getenv("WERCKER_APPLICATION_URL"));
+        log.info("LOCALHOST=" + InetAddress.getLocalHost());
+        log.info("LOOPBACK_ADDRESS=" + InetAddress.getLoopbackAddress());
+        log.info("HOST_ADDRESS=" + InetAddress.getLocalHost().getHostAddress());
+        log.info("ADDRESS=" + InetAddress.getLocalHost().getAddress());
     }
 
     @Test
     public void testSendAndReceiveOBUId() {
         GetOBUIdRequest request = new GetOBUIdRequest();
         assertNotNull(new WebServiceTemplate(marshaller)
-                .marshalSendAndReceive(HOST + port + WS, request));
+                .marshalSendAndReceive(request));
+
+        // HOST + port + WS,
     }
 
     @Test
