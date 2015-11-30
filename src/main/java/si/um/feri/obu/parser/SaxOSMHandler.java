@@ -4,7 +4,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import si.um.feri.obu.domain.xjc.GeoLocation;
-import si.um.feri.obu.domain.xjc.ObjectFactory;
 import si.um.feri.obu.domain.xjc.Track;
 import si.um.feri.obu.domain.xjc.TrackPoint;
 
@@ -29,7 +28,7 @@ public class SaxOSMHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
-        if(qName.equalsIgnoreCase("NODE")) {
+        if (qName.equalsIgnoreCase("NODE")) {
             tempTrackPoint = new TrackPoint();
             tempTrackPoint.setTimestamp(Instant.parse(attributes.getValue(attributes.getIndex("timestamp"))).toEpochMilli());
             GeoLocation geoLocation = new GeoLocation();
@@ -40,11 +39,11 @@ public class SaxOSMHandler extends DefaultHandler {
             //System.out.println(tempTrackPoint);
         }
 
-        if(qName.equalsIgnoreCase("WAY")) {
+        if (qName.equalsIgnoreCase("WAY")) {
             track = new Track();
         }
 
-        if(qName.equalsIgnoreCase("ND")) {
+        if (qName.equalsIgnoreCase("ND")) {
             track.getTrackPoints().add(trackPointHashMap.get(Long.parseLong(attributes.getValue(attributes.getIndex("ref")))));
         }
 
@@ -54,8 +53,8 @@ public class SaxOSMHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws
             SAXException {
 
-        if(qName.equalsIgnoreCase("WAY")) {
-            if(track.getTrackPoints().size() > 5) {
+        if (qName.equalsIgnoreCase("WAY")) {
+            if (track.getTrackPoints().size() > 5) {
                 trackList.add(track);
                 //System.out.println(track);
             }

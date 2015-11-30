@@ -103,7 +103,7 @@
                                     <value>all</value>
                                 </property>
                             </properties>
-                            <outputFile />
+                            <outputFile/>
                         </configuration>
                     </plugin>
 
@@ -177,7 +177,7 @@
                                     <value>all</value>
                                 </property>
                             </properties>
-                            <outputFile />
+                            <outputFile/>
                         </configuration>
                     </plugin>
 
@@ -254,7 +254,7 @@
                                     <value>all</value>
                                 </property>
                             </properties>
-                            <outputFile />
+                            <outputFile/>
                         </configuration>
                     </plugin>
 

@@ -61,7 +61,7 @@ public class TrackImporterPro implements CommandLineRunner {
         trackRepository.deleteAll();
 
         log.info("START INSERTING in DB");
-        for(Track track : handler.getTrackList()) {
+        for (Track track : handler.getTrackList()) {
             trackRepository.save(track);
             //log.info("INSERT=" + track);
         }

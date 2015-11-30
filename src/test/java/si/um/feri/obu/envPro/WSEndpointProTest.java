@@ -13,6 +13,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import si.um.feri.obu.ObuApplication;
 import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
+import si.um.feri.obu.domain.xjc.GetLocationRequest;
 import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
 import si.um.feri.obu.domain.xjc.ObjectFactory;
 
@@ -24,39 +25,36 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("pro")
 public class WSEndpointProTest {
 
-    @Value("#{systemEnvironment['WERCKER_APPLICATION_URL']}")
-    private static String HOST;
     private static final String WS = "/ws";
-
-    private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-
+    private static String HOST = "http://obu.grega.xyz:";
     @Value("${local.server.port}")
     private int port;
 
+    private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+
     @Before
     public void init() throws Exception {
-        marshaller.setPackagesToScan(ClassUtils.getPackageName(ObjectFactory
-                .class));
+        marshaller.setPackagesToScan(ClassUtils.getPackageName(ObjectFactory.class));
         marshaller.afterPropertiesSet();
     }
 
     @Test
     public void testSendAndReceiveOBUId() {
         GetOBUIdRequest request = new GetOBUIdRequest();
-        assertNotNull(new WebServiceTemplate(marshaller)
-                .marshalSendAndReceive(HOST + port + WS, request));
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
     @Test
     public void testSendAndReceiveDriveHistory() {
         GetDriveHistoryRequest request = new GetDriveHistoryRequest();
         request.setOBUId("some_id");
-        assertNotNull(new WebServiceTemplate(marshaller)
-                .marshalSendAndReceive(HOST + port + WS, request));
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
     @Test
     public void testSendAndReceiveGeoLocation() {
-
+        GetLocationRequest request = new GetLocationRequest();
+        request.setOBUId("some_id");
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 }

@@ -35,7 +35,7 @@ public class TrackImporterDev implements CommandLineRunner {
 
         log.info("START RUNNING TrackImporter...");
 
-        if(trackRepository.count() < 47469) {
+        if (trackRepository.count() < 47469) {
 
             log.info("STARTED PARSING...");
             SaxOSMHandler handler = new SaxOSMHandler();
@@ -63,7 +63,7 @@ public class TrackImporterDev implements CommandLineRunner {
             trackRepository.deleteAll();
 
             log.info("START INSERTING in DB");
-            for(Track track : handler.getTrackList()) {
+            for (Track track : handler.getTrackList()) {
                 trackRepository.save(track);
                 //log.info("INSERT=" + track);
             }
