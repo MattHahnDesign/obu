@@ -18,7 +18,6 @@ public class MongoDBConfigTest {
 
     private String host = System.getenv("MONGO_PORT_27017_TCP_ADDR");
 
-    @Value("#{systemEnvironment['MONGO_PORT_27017_TCP_PORT']}")
     private int port = Integer.parseInt(System.getenv("MONGO_PORT_27017_TCP_PORT"));
 
     @Bean
