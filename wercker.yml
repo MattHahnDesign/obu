@@ -11,6 +11,6 @@ build:
           java -version
           javac -version
     - script:
-        name: Run Maven cmd mvn clean test -Ptest
+        name: Run Maven command mvn clean test -Ptest
         code: |
           mvn clean test -Ptest
