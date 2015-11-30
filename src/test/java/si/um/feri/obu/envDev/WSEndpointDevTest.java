@@ -64,6 +64,13 @@ public class WSEndpointDevTest {
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
+    @Test
+    public void testSendAndReceiveCarParameterList() {
+        GetCarParameterListRequest request = new GetCarParameterListRequest();
+        request.setOBUId("some_id");
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+    }
+
 
 
 }
