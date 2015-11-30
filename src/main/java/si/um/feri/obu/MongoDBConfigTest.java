@@ -1,7 +1,6 @@
 package si.um.feri.obu;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +16,10 @@ public class MongoDBConfigTest {
     @Value("${spring.data.mongodb.database}")
     private String dbName;
 
-    @Value("#{systemEnvironment['MONGO_PORT_27017_TCP_ADDR']}")
-    private String host;
+    private String host = System.getenv("MONGO_PORT_27017_TCP_ADDR");
 
     @Value("#{systemEnvironment['MONGO_PORT_27017_TCP_PORT']}")
-    private int port;
+    private int port = Integer.parseInt(System.getenv("MONGO_PORT_27017_TCP_PORT"));
 
     @Bean
     MongoClient mongoClient() throws Exception {
