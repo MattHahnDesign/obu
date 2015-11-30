@@ -33,7 +33,7 @@ public class TrackImporterPro implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        log.info("START RUNNING TrackImporter...");
+        log.info("START RUNNING TrackImporter production...");
 
         log.info("STARTED PARSING...");
         SaxOSMHandler handler = new SaxOSMHandler();
@@ -63,7 +63,6 @@ public class TrackImporterPro implements CommandLineRunner {
         log.info("START INSERTING in DB");
         for (Track track : handler.getTrackList()) {
             trackRepository.save(track);
-            //log.info("INSERT=" + track);
         }
         log.info("END INSERTING in DB");
 

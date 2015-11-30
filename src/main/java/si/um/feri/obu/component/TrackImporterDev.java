@@ -33,7 +33,7 @@ public class TrackImporterDev implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        log.info("START RUNNING TrackImporter...");
+        log.info("START RUNNING TrackImporter development...");
 
         if (trackRepository.count() < 47469) {
 
@@ -65,11 +65,13 @@ public class TrackImporterDev implements CommandLineRunner {
             log.info("START INSERTING in DB");
             for (Track track : handler.getTrackList()) {
                 trackRepository.save(track);
-                //log.info("INSERT=" + track);
+                log.info("INSERT=" + track);
             }
             log.info("END INSERTING in DB");
 
         }
+
+        log.info("ALL TRACKS IMPORTED (" + trackRepository.count() + ").");
 
     }
 
