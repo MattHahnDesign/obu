@@ -12,10 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import si.um.feri.obu.ObuApplication;
-import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
-import si.um.feri.obu.domain.xjc.GetLocationRequest;
-import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
-import si.um.feri.obu.domain.xjc.ObjectFactory;
+import si.um.feri.obu.domain.xjc.*;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -56,6 +53,14 @@ public class WSEndpointDevTest {
     public void testSendAndReceiveGeoLocation() {
         GetLocationRequest request = new GetLocationRequest();
         request.setOBUId("some_id");
+        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+    }
+
+    @Test
+    public void testReceiveNotification() {
+        ReceiveNotificationRequest request = new ReceiveNotificationRequest();
+        request.setOBUId("some_id");
+        request.setMessage("this is notification message!");
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
