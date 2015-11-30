@@ -1,5 +1,6 @@
 package si.um.feri.obu.envTest;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,9 @@ import static org.junit.Assert.assertNotNull;
 @ActiveProfiles("test")
 public class WSEndpointTestTest {
 
-    private static String HOST = System.getenv("WERCKER_APPLICATION_URL");
+    private Logger log = Logger.getLogger(WSEndpointTestTest.class.getName());
+
+    private static String HOST = System.getenv("WERCKER_BUILD_URL");
     private static final String WS = "/ws";
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -35,6 +38,9 @@ public class WSEndpointTestTest {
         marshaller.setPackagesToScan(ClassUtils.getPackageName(ObjectFactory
                 .class));
         marshaller.afterPropertiesSet();
+
+        log.info("WERCKER_BUILD_URL=" + System.getenv("WERCKER_BUILD_URL"));
+        log.info("WERCKER_APPLICATION_URL=" + System.getenv("WERCKER_APPLICATION_URL"));
     }
 
     @Test
