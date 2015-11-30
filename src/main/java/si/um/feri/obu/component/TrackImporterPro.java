@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Component
-@Profile("pro")
+@Profile({"pro", "test"})
 public class TrackImporterPro implements CommandLineRunner {
 
     private Logger log = Logger.getLogger(TrackImporterPro.class.getName());
@@ -63,7 +63,7 @@ public class TrackImporterPro implements CommandLineRunner {
         log.info("START INSERTING in DB");
         for(Track track : handler.getTrackList()) {
             trackRepository.save(track);
-            log.info("INSERT=" + track);
+            //log.info("INSERT=" + track);
         }
         log.info("END INSERTING in DB");
 

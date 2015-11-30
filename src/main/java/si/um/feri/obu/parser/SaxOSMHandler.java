@@ -37,7 +37,7 @@ public class SaxOSMHandler extends DefaultHandler {
             geoLocation.setLon(Float.parseFloat(attributes.getValue(attributes.getIndex("lon"))));
             tempTrackPoint.setLocation(geoLocation);
             trackPointHashMap.put(Long.parseLong(attributes.getValue(attributes.getIndex("id"))), tempTrackPoint);
-            System.out.println(tempTrackPoint);
+            //System.out.println(tempTrackPoint);
         }
 
         if(qName.equalsIgnoreCase("WAY")) {
@@ -57,7 +57,7 @@ public class SaxOSMHandler extends DefaultHandler {
         if(qName.equalsIgnoreCase("WAY")) {
             if(track.getTrackPoints().size() > 5) {
                 trackList.add(track);
-                System.out.println(track);
+                //System.out.println(track);
             }
         }
 

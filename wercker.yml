@@ -1,6 +1,6 @@
 box: rest4hub/docker-oracle-java8-mvn-3.3.3
 services:
-  - mongo
+  - mongodb
 build:
   steps:
     - script:
@@ -13,5 +13,5 @@ build:
     - script:
         name: Run Maven package
         code: |
-          mvn clean package -Ppro
+          mvn clean package -Ptest
 
