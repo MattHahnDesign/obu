@@ -1,4 +1,4 @@
-package si.um.feri.obu;
+package si.um.feri.obu.envDev;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ClassUtils;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import si.um.feri.obu.ObuApplication;
 import si.um.feri.obu.domain.xjc.GetDriveHistoryRequest;
 import si.um.feri.obu.domain.xjc.GetOBUIdRequest;
 import si.um.feri.obu.domain.xjc.ObjectFactory;
