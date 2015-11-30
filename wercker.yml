@@ -17,3 +17,5 @@ build:
   after_steps:
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
+        channel: wercker
+        username: WerckerBot

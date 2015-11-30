@@ -64,4 +64,6 @@ public class WSEndpointDevTest {
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
+
+
 }
