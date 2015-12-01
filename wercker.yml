@@ -19,7 +19,7 @@ build:
         webhook_url: $SLACK_WEBHOOK_URL
 deploy:
   steps:
-    - add-to-known_hosts:
+    - add-to-known-hosts:
         hostname: $SERVER_HOSTNAME
     - add-ssh-key:
         keyname: DOKKU
