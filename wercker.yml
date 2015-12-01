@@ -15,8 +15,9 @@ build:
         code: |
           mvn clean test -Ptest
   after-steps:
-    - wantedly/pretty-slack-notify:
-        webhook_url: $SLACK_WEBHOOK_URL
+    - slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        username: WerckerBot
 deploy:
   steps:
     - add-to-known_hosts:
@@ -41,5 +42,7 @@ deploy:
         code: |
           git push dokku master
   after-steps:
-    - wantedly/pretty-slack-notify:
-        webhook_url: $SLACK_WEBHOOK_URL
+    - slack-notifier:
+        url: $SLACK_WEBHOOK_URL,
+        username: WerckerBot
+        branch: master
