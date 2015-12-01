@@ -14,7 +14,7 @@ build:
         name: Run Maven command mvn clean test -Ptest
         code: |
           mvn clean test -Ptest
-  after_steps:
+  after-steps:
     - wantedly/pretty-slack-notify:
         webhook_url: $SLACK_WEBHOOK_URL
 deploy:
