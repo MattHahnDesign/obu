@@ -15,7 +15,7 @@ build:
         code: |
           mvn clean test -Ptest
   after_steps:
-    - wantedly/pretty-slack-notify:
-        webhook_url: $SLACK_WEBHOOK_URL
+    - kobim/slack-post:
+        url: $SLACK_WEBHOOK_URL
         channel: notifications
         username: werckerbot
