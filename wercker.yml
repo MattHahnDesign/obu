@@ -43,6 +43,6 @@ deploy:
           git push dokku master -f
   after-steps:
     - slack-notifier:
-        url: $SLACK_WEBHOOK_URL,
+        url: $SLACK_WEBHOOK_URL
         username: WerckerBot
         branch: master
