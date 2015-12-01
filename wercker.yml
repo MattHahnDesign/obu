@@ -17,5 +17,5 @@ build:
   after_steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL
-        channel: wercker
-        username: WerckerBot
+        channel: notifications
+        username: werckerbot
