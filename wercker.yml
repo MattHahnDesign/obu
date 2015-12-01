@@ -40,7 +40,7 @@ deploy:
     - script:
         name: Push to dokku
         code: |
-          git push dokku master
+          git push dokku master -f
   after-steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL,
