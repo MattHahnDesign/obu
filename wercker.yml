@@ -14,3 +14,8 @@ build:
         name: Run Maven command mvn clean test -Ptest
         code: |
           mvn clean test -Ptest
+  after_steps:
+    - slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        channel: wercker
+        username: WerckerBot
