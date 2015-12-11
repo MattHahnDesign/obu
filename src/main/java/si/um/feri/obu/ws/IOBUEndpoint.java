@@ -6,7 +6,7 @@ import si.um.feri.obu.domain.xjc.*;
 @Endpoint
 public interface IOBUEndpoint {
 
-    public GetOBUIdResponse getOBUId(GetOBUIdRequest request);
+    public GetOBUIdResponse createNewOBU(GetOBUIdRequest request);
 
     public GetDriveHistoryResponse getDriveHistory(GetDriveHistoryRequest
                                                            request);

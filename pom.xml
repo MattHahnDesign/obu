@@ -137,6 +137,7 @@
                                 <exclude>**/envTest/*.java</exclude>
                                 <exclude>**/envPro/*.java</exclude>
                             </excludes>
+                            <argLine>-Dspring.profiles.active=dev</argLine>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -211,6 +212,7 @@
                                 <exclude>**/envDev/*.java</exclude>
                                 <exclude>**/envPro/*.java</exclude>
                             </excludes>
+                            <argLine>-Dspring.profiles.active=test</argLine>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -288,6 +290,7 @@
                                 <exclude>**/envTest/*.java</exclude>
                                 <exclude>**/envDev/*.java</exclude>
                             </excludes>
+                            <argLine>-Dspring.profiles.active=pro</argLine>
                         </configuration>
                     </plugin>
                 </plugins>

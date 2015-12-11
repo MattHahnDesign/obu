@@ -14,6 +14,7 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import si.um.feri.obu.ObuApplication;
 import si.um.feri.obu.domain.xjc.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -67,7 +68,10 @@ public class WSEndpointProTest {
     public void testSendAndReceiveCarParameterList() {
         GetCarParameterListRequest request = new GetCarParameterListRequest();
         request.setOBUId("some_id");
-        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+        GetCarParameterListResponse response = (GetCarParameterListResponse) new WebServiceTemplate(marshaller)
+                .marshalSendAndReceive(HOST + port + WS, request);
+        assertNotNull(response);
+        assertArrayEquals(response.getCarParameters().toArray(), CarParameter.values());
     }
 
     @Test
@@ -82,7 +86,10 @@ public class WSEndpointProTest {
     public void testSendAndReceiveCarCommandList() {
         GetCarCommandListRequest request = new GetCarCommandListRequest();
         request.setOBUId("some_id");
-        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+        GetCarCommandListResponse response = (GetCarCommandListResponse) new WebServiceTemplate(marshaller)
+                .marshalSendAndReceive(HOST + port + WS, request);
+        assertNotNull(response);
+        assertArrayEquals(response.getCommands().toArray(), CarCommand.values());
     }
 
     @Test

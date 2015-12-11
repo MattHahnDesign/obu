@@ -13,18 +13,15 @@ public class OBUEndpoint implements IOBUEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOBUIdRequest")
     @ResponsePayload
-    public GetOBUIdResponse getOBUId(@RequestPayload GetOBUIdRequest request) {
+    public GetOBUIdResponse createNewOBU(@RequestPayload GetOBUIdRequest request) {
         GetOBUIdResponse response = new GetOBUIdResponse();
-        response.setOBUId("fucking id!!!");
+        response.setOBUId("id!!!");
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart =
-            "getDriveHistoryRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getDriveHistoryRequest")
     @ResponsePayload
-    public GetDriveHistoryResponse getDriveHistory(@RequestPayload
-                                                   GetDriveHistoryRequest
-                                                           request) {
+    public GetDriveHistoryResponse getDriveHistory(@RequestPayload GetDriveHistoryRequest request) {
         System.out.println("arg = [" + request + "]");
         GetDriveHistoryResponse response = new GetDriveHistoryResponse();
         return response;
@@ -39,8 +36,7 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart =
-            "receiveNotificationRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "receiveNotificationRequest")
     @ResponsePayload
     public ReceiveNotificationResponse receiveNotification(@RequestPayload
                                                            ReceiveNotificationRequest request) {
@@ -50,35 +46,36 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart =
-            "getCarParameterListRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterListRequest")
     @ResponsePayload
-    public GetCarParameterListResponse getCarParameterList(@RequestPayload
-                                                           GetCarParameterListRequest request) {
+    public GetCarParameterListResponse getCarParameterList(@RequestPayload GetCarParameterListRequest request) {
         System.out.println("request = [" + request + "]");
-        GetCarParameterListResponse response = new
-                GetCarParameterListResponse();
+        GetCarParameterListResponse response = new GetCarParameterListResponse();
+        for(CarParameter cp : CarParameter.values()) {
+            response.getCarParameters().add(cp);
+        }
+
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart =
-            "getCarParameterValueRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterValueRequest")
     @ResponsePayload
-    public GetCarParameterValueResponse getCarParameterValue(@RequestPayload
-                                                             GetCarParameterValueRequest request) {
+    public GetCarParameterValueResponse getCarParameterValue(@RequestPayload GetCarParameterValueRequest request) {
         System.out.println("request = [" + request + "]");
         GetCarParameterValueResponse response = new
                 GetCarParameterValueResponse();
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart =
-            "getCarCommandListRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarCommandListRequest")
     @ResponsePayload
-    public GetCarCommandListResponse getCarCommandList(@RequestPayload
-                                                       GetCarCommandListRequest request) {
+    public GetCarCommandListResponse getCarCommandList(@RequestPayload GetCarCommandListRequest request) {
         System.out.println("request = [" + request + "]");
         GetCarCommandListResponse response = new GetCarCommandListResponse();
+        for (CarCommand cc : CarCommand.values()) {
+            response.getCommands().add(cc);
+        }
+
         return response;
     }
 
@@ -94,8 +91,7 @@ public class OBUEndpoint implements IOBUEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarErrorsRequest")
     @ResponsePayload
-    public GetCarErrorsResponse getCarErrors(@RequestPayload
-                                             GetCarErrorsRequest request) {
+    public GetCarErrorsResponse getCarErrors(@RequestPayload GetCarErrorsRequest request) {
         System.out.println("request = [" + request + "]");
         GetCarErrorsResponse response = new GetCarErrorsResponse();
         return response;

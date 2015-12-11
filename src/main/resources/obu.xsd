@@ -181,6 +181,7 @@
             <xs:enumeration value="WINDOWS"/>
             <xs:enumeration value="HEATING"/>
             <xs:enumeration value="DOOR_LOCK"/>
+            <xs:enumeration value="CAR_COMPUTER"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="commandState">
@@ -189,6 +190,7 @@
             <xs:enumeration value="STOP"/>
             <xs:enumeration value="OPEN"/>
             <xs:enumeration value="CLOSE"/>
+            <xs:enumeration value="RESTART"/>
         </xs:restriction>
     </xs:simpleType>
 
