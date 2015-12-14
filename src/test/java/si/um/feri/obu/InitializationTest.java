@@ -1,5 +1,6 @@
 package si.um.feri.obu;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ public class InitializationTest {
 
     @Autowired
     TrackRepository trackRepository;
+
+    @Before
+    public void testTrackRepository() {
+        assertNotNull(trackRepository);
+    }
 
     @Test
     public void testTrackImporter() {
