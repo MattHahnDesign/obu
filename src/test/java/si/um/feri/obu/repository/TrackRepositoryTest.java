@@ -1,8 +1,6 @@
 package si.um.feri.obu.repository;
 
 import org.bson.types.ObjectId;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +22,8 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(classes = ObuApplication.class)
 public class TrackRepositoryTest {
 
+    @Autowired
+    TrackRepository trackRepository;
     private Track track;
 
     public TrackRepositoryTest() {
@@ -37,9 +37,6 @@ public class TrackRepositoryTest {
         trackPoint.setTimestamp(new Date().getTime());
         track.getTrackPoints().add(trackPoint);
     }
-
-    @Autowired
-    TrackRepository trackRepository;
 
     @Before
     public void testTrackRepository() {
@@ -59,7 +56,7 @@ public class TrackRepositoryTest {
         Random random = new Random();
         int randomItemIndex = random.nextInt(trackList.size());
         assertEquals(trackList.get(randomItemIndex).getId(),
-                     trackRepository.findOne(trackList.get(randomItemIndex).getId()).getId());
+                trackRepository.findOne(trackList.get(randomItemIndex).getId()).getId());
     }
 
     @Test

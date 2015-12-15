@@ -59,7 +59,7 @@ public class WSEndpointDevTest {
 
     @Test
     public void testReceiveNotification() {
-        ReceiveNotificationRequest request = new ReceiveNotificationRequest();
+        SendNotificationRequest request = new SendNotificationRequest();
         request.setOBUId("some_id");
         request.setMessage("this is notification message!");
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));

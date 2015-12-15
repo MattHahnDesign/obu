@@ -1,21 +1,30 @@
 package si.um.feri.obu.ws;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import si.um.feri.obu.domain.xjc.*;
+import si.um.feri.obu.service.OBUService;
 
 @Endpoint
 public class OBUEndpoint implements IOBUEndpoint {
 
+    private Logger logg = LogManager.getLogger(OBUEndpoint.class.getName());
+
     private static final String NAMESPACE_URI = "http://feri.um.si/obu";
+
+    @Autowired
+    private OBUService obuService;
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOBUIdRequest")
     @ResponsePayload
     public GetOBUIdResponse createNewOBU(@RequestPayload GetOBUIdRequest request) {
         GetOBUIdResponse response = new GetOBUIdResponse();
-        response.setOBUId("id!!!");
+        response.setOBUId(obuService.createNewOBU().getId());
         return response;
     }
 
@@ -23,14 +32,12 @@ public class OBUEndpoint implements IOBUEndpoint {
     @ResponsePayload
     public GetDriveHistoryResponse getDriveHistory(@RequestPayload GetDriveHistoryRequest request) {
         System.out.println("arg = [" + request + "]");
-        GetDriveHistoryResponse response = new GetDriveHistoryResponse();
-        return response;
+        return obuService.getOBUDriveHistory(request.getOBUId(), new GetDriveHistoryResponse());
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLocationRequest")
     @ResponsePayload
-    public GetLocationResponse getLocation(@RequestPayload GetLocationRequest
-                                                   request) {
+    public GetLocationResponse getLocation(@RequestPayload GetLocationRequest request) {
         System.out.println("arg = [" + request + "]");
         GetLocationResponse response = new GetLocationResponse();
         return response;
@@ -38,11 +45,9 @@ public class OBUEndpoint implements IOBUEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "receiveNotificationRequest")
     @ResponsePayload
-    public ReceiveNotificationResponse receiveNotification(@RequestPayload
-                                                           ReceiveNotificationRequest request) {
+    public SendNotificationResponse sendNotification(@RequestPayload SendNotificationRequest request) {
         System.out.println("request = [" + request + "]");
-        ReceiveNotificationResponse response = new
-                ReceiveNotificationResponse();
+        SendNotificationResponse response = new SendNotificationResponse();
         return response;
     }
 
@@ -51,7 +56,7 @@ public class OBUEndpoint implements IOBUEndpoint {
     public GetCarParameterListResponse getCarParameterList(@RequestPayload GetCarParameterListRequest request) {
         System.out.println("request = [" + request + "]");
         GetCarParameterListResponse response = new GetCarParameterListResponse();
-        for(CarParameter cp : CarParameter.values()) {
+        for (CarParameter cp : CarParameter.values()) {
             response.getCarParameters().add(cp);
         }
 

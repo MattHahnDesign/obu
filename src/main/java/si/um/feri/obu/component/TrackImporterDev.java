@@ -1,9 +1,11 @@
 package si.um.feri.obu.component;
 
+import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Component
-@Profile("dev")
+@Profile("donottouch")
 public class TrackImporterDev implements CommandLineRunner {
 
     private Logger log = Logger.getLogger(TrackImporterDev.class.getName());
@@ -35,6 +37,8 @@ public class TrackImporterDev implements CommandLineRunner {
 
         log.info("START RUNNING TrackImporter development...");
 
+        ClassPathResource resource = new ClassPathResource("tracks.json");
+
         if (trackRepository.count() < 47469) {
 
             log.info("STARTED PARSING...");
@@ -42,10 +46,10 @@ public class TrackImporterDev implements CommandLineRunner {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             try {
 
-                Resource resource = resourceLoader.getResource("url:https://dl.dropboxusercontent.com/u/26331919/slovenia_ways.osm");
+                Resource resourceFile = resourceLoader.getResource("url:https://dl.dropboxusercontent.com/u/26331919/slovenia_ways.osm");
                 SAXParser saxParser = factory.newSAXParser();
 
-                saxParser.parse(resource.getInputStream(), handler);
+                saxParser.parse(resourceFile.getInputStream(), handler);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
