@@ -8,6 +8,7 @@ import com.mongodb.util.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -23,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 @Component
+@Profile({"dev", "test", "pro"})
 public class TrackImporter implements CommandLineRunner {
 
     private ClassPathResource resource = new ClassPathResource("tracks.json");
