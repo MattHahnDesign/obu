@@ -120,7 +120,7 @@
 
     <xs:complexType name="getLocationResponse">
         <xs:sequence>
-            <xs:element name="gepLocation" type="tns:geoLocation" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="geoLocation" type="tns:geoLocation" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

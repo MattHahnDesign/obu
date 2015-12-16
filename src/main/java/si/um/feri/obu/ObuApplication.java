@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ObuApplication {
 
     public static void main(String[] args) {
-        //SpringApplication springApplication = new SpringApplication();
-        //springApplication.set
         SpringApplication.run(ObuApplication.class, args);
     }
 }

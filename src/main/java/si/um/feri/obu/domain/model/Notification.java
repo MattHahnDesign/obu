@@ -9,6 +9,11 @@ public class Notification {
         super();
     }
 
+    public Notification(long datetime, String content) {
+        this.datetime = datetime;
+        this.content = content;
+    }
+
     public long getDatetime() {
         return datetime;
     }

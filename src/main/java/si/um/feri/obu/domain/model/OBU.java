@@ -1,5 +1,6 @@
 package si.um.feri.obu.domain.model;
 
+import si.um.feri.obu.domain.xjc.CarError;
 import si.um.feri.obu.domain.xjc.Track;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class OBU {
     private long trackEndDateTime;
     private List<String> drivenRoutesIds;
     private List<Notification> notificationsReceived;
+    private List<CarError> carErrors;
 
     public OBU() {
         super();
@@ -65,6 +67,14 @@ public class OBU {
         this.notificationsReceived = notificationsReceived;
     }
 
+    public List<CarError> getCarErrors() {
+        return carErrors;
+    }
+
+    public void setCarErrors(List<CarError> carErrors) {
+        this.carErrors = carErrors;
+    }
+
     @Override
     public String toString() {
         return "OBU{" +
@@ -74,6 +84,7 @@ public class OBU {
                 ", trackEndDateTime=" + trackEndDateTime +
                 ", drivenRoutesIds=" + drivenRoutesIds +
                 ", notificationsReceived=" + notificationsReceived +
+                ", carErrors=" + carErrors +
                 '}';
     }
 }

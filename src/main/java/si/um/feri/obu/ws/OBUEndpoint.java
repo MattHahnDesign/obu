@@ -20,6 +20,7 @@ public class OBUEndpoint implements IOBUEndpoint {
     @Autowired
     private OBUService obuService;
 
+    //DONE - TODO:WRITE TESTS
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getOBUIdRequest")
     @ResponsePayload
     public GetOBUIdResponse createNewOBU(@RequestPayload GetOBUIdRequest request) {
@@ -28,6 +29,7 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
+    //DONE - TODO:WRITE TESTS
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getDriveHistoryRequest")
     @ResponsePayload
     public GetDriveHistoryResponse getDriveHistory(@RequestPayload GetDriveHistoryRequest request) {
@@ -35,22 +37,27 @@ public class OBUEndpoint implements IOBUEndpoint {
         return obuService.getOBUDriveHistory(request.getOBUId(), new GetDriveHistoryResponse());
     }
 
+    //DONE - TODO:WRITE TESTS
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLocationRequest")
     @ResponsePayload
     public GetLocationResponse getLocation(@RequestPayload GetLocationRequest request) {
         System.out.println("arg = [" + request + "]");
         GetLocationResponse response = new GetLocationResponse();
+        response.setGeoLocation(obuService.getCurrentOBULocation(request));
         return response;
     }
 
+    //DONE - TODO:WRITE TESTS
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "receiveNotificationRequest")
     @ResponsePayload
     public SendNotificationResponse sendNotification(@RequestPayload SendNotificationRequest request) {
         System.out.println("request = [" + request + "]");
         SendNotificationResponse response = new SendNotificationResponse();
+        response.setStatus(obuService.sendNotificationToOBU(request));
         return response;
     }
 
+    //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterListRequest")
     @ResponsePayload
     public GetCarParameterListResponse getCarParameterList(@RequestPayload GetCarParameterListRequest request) {
@@ -63,6 +70,7 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
+    //TODO
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterValueRequest")
     @ResponsePayload
     public GetCarParameterValueResponse getCarParameterValue(@RequestPayload GetCarParameterValueRequest request) {
@@ -72,6 +80,7 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
+    //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarCommandListRequest")
     @ResponsePayload
     public GetCarCommandListResponse getCarCommandList(@RequestPayload GetCarCommandListRequest request) {
@@ -84,21 +93,20 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
+    //TODO
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sendCarCommandRequest")
     @ResponsePayload
-    public SendCarCommandResponse sendCarCommand(@RequestPayload
-                                                 SendCarCommandRequest
-                                                         request) {
+    public SendCarCommandResponse sendCarCommand(@RequestPayload SendCarCommandRequest request) {
         System.out.println("request = [" + request + "]");
         SendCarCommandResponse response = new SendCarCommandResponse();
         return response;
     }
 
+    //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarErrorsRequest")
     @ResponsePayload
     public GetCarErrorsResponse getCarErrors(@RequestPayload GetCarErrorsRequest request) {
         System.out.println("request = [" + request + "]");
-        GetCarErrorsResponse response = new GetCarErrorsResponse();
-        return response;
+        return obuService.getCarErrors(request);
     }
 }
