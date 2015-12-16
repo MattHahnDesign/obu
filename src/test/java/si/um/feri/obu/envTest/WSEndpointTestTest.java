@@ -49,12 +49,12 @@ public class WSEndpointTestTest {
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }*/
 
-    @Test
+    /*@Test
     public void testSendAndReceiveGeoLocation() {
         GetLocationRequest request = new GetLocationRequest();
         request.setOBUId("some_id");
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
-    }
+    }*/
 
     /*@Test
     public void testReceiveNotification() {
@@ -64,7 +64,7 @@ public class WSEndpointTestTest {
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }*/
 
-    @Test
+    /*@Test
     public void testSendAndReceiveCarParameterList() {
         GetCarParameterListRequest request = new GetCarParameterListRequest();
         request.setOBUId("some_id");
@@ -106,6 +106,6 @@ public class WSEndpointTestTest {
         GetCarErrorsRequest request = new GetCarErrorsRequest();
         request.setOBUId("some_id");
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
-    }
+    }*/
 
 }
