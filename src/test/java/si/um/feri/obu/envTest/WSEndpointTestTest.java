@@ -36,7 +36,7 @@ public class WSEndpointTestTest {
         marshaller.afterPropertiesSet();
     }
 
-    @Test
+    /*@Test
     public void testSendAndReceiveOBUId() {
         GetOBUIdRequest request = new GetOBUIdRequest();
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
