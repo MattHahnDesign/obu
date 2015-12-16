@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 import si.um.feri.obu.domain.xjc.Track;
@@ -29,6 +31,9 @@ public class TrackImporter implements CommandLineRunner {
     private ApplicationContext context;
 
     @Autowired
+    private ResourceLoader resourceLoader;
+
+    @Autowired
     TrackRepository trackRepository;
 
     @Override
@@ -41,7 +46,9 @@ public class TrackImporter implements CommandLineRunner {
 
         template.createCollection("track");
 
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://www.dropbox.com/s/kv2ejxcsitjv5ri/tracks.json?dl=0").openStream()))) {
+        Resource resource = resourceLoader.getResource("url:https://dl.dropboxusercontent.com/u/26331919/tracks.json");
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
 
             String line;
             Gson gson = new Gson();
