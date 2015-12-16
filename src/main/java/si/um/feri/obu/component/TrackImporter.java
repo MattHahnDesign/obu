@@ -46,9 +46,7 @@ public class TrackImporter implements CommandLineRunner {
 
         template.createCollection("track");
 
-        Resource resource = resourceLoader.getResource("url:https://dl.dropboxusercontent.com/u/26331919/tracks.json");
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("url:https://dl.dropboxusercontent.com/u/26331919/tracks.json").openStream()))) {
 
             String line;
             Gson gson = new Gson();
