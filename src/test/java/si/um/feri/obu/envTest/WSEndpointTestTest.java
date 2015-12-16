@@ -30,7 +30,7 @@ public class WSEndpointTestTest {
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
-    @Before
+    /*@Before
     public void init() throws Exception {
         marshaller.setPackagesToScan(ClassUtils.getPackageName(ObjectFactory.class));
         marshaller.afterPropertiesSet();
