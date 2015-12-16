@@ -33,7 +33,7 @@ deploy:
           git config --global user.email "pleasemailus@wercker.com"
           git remote add dokku dokku@$SERVER_HOSTNAME:obu
     - script:
-        name: Add everythin to the repository
+        name: Add everything to the repository
         code: |
           git add .
           git commit -m "Result of deploy $WERCKER_GIT_COMMIT"

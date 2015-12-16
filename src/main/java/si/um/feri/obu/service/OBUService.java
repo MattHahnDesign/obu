@@ -108,6 +108,8 @@ public class OBUService {
         if(obu.getTrackStartedDateTime() <= new Date().getTime() && new Date().getTime() <= obu.getTrackEndDateTime()) {
             logg.info("magic");
             //do the magic and find location from track
+            logg.info("duration: " + obu.getCurrentTrack().getDuration());
+            logg.info("trackPoints size: " + obu.getCurrentTrack().getTrackPoints().size());
             long timeStep = obu.getCurrentTrack().getDuration() / obu.getCurrentTrack().getTrackPoints().size();
             logg.info("timeStep:" + timeStep);
             long currentTime = new Date().getTime();
