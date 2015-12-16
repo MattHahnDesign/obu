@@ -30,16 +30,16 @@ public class WSEndpointProTest {
 
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
 
-    /*@Before
+    @Before
     public void init() throws Exception {
         marshaller.setPackagesToScan(ClassUtils.getPackageName(ObjectFactory.class));
         marshaller.afterPropertiesSet();
     }
 
-    /*@Test
+    @Test
     public void testSendAndReceiveOBUId() {
-        GetOBUIdRequest request = new GetOBUIdRequest();
-        assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
+       // GetOBUIdRequest request = new GetOBUIdRequest();
+       // assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
     /*@Test
