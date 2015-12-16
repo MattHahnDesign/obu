@@ -48,7 +48,6 @@ public class TrackImporter implements CommandLineRunner {
             Track track;
 
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println("line=" + line);
                 template.getCollection("track").save((DBObject) JSON.parse(line));
             }
 
