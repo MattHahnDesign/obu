@@ -15,6 +15,7 @@ public class OBU {
     private List<Notification> notificationsReceived;
     private List<CarError> carErrors;
 
+
     public OBU() {
         super();
     }

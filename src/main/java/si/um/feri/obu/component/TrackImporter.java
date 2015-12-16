@@ -1,6 +1,8 @@
 package si.um.feri.obu.component;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import si.um.feri.obu.repository.TrackRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
 @Component
 public class TrackImporter implements CommandLineRunner {
@@ -37,7 +41,7 @@ public class TrackImporter implements CommandLineRunner {
 
         template.createCollection("track");
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://www.dropbox.com/s/kv2ejxcsitjv5ri/tracks.json?dl=0").openStream()))) {
 
             String line;
             Gson gson = new Gson();
