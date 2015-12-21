@@ -68,7 +68,7 @@ public class OBUService {
         if(OBUs != null && trackIds != null) {
             OBU obu = new OBU();
             obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
-            obu.setTrackStartedDateTime(new Date().getTime() + (DELAY_5_MINUTES * MINUTE_IN_MS)); // start track after 5 minutes
+            obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS)); // * 1000 to convert from second to milis
             obu.setDrivenRoutesIds(new ArrayList<>());
             obu.setNotificationsReceived(new ArrayList<>());
@@ -125,17 +125,15 @@ public class OBUService {
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         } else {
             logg.info("not magic");
-            if(new Date().getTime() >= (obu.getTrackEndDateTime() + (DELAY_5_MINUTES * MINUTE_IN_MS))) {
-                if(rand.nextBoolean()) { //if random boolean true, set ne track
-                    obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
-                    obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
-                    obu.setTrackStartedDateTime(new Date().getTime());
-                    obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
-                    logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
-                    OBUs.replace(request.getOBUId(), obu);
-                    obuRepository.save(obu);
-                    return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-                }
+            if(rand.nextBoolean()) { //if random boolean true, set ne track
+                obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
+                obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
+                obu.setTrackStartedDateTime(new Date().getTime());
+                obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
+                logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
+                OBUs.replace(request.getOBUId(), obu);
+                obuRepository.save(obu);
+                return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
             }
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         }

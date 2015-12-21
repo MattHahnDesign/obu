@@ -141,6 +141,7 @@
     <xs:complexType name="sendNotificationRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="message" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
