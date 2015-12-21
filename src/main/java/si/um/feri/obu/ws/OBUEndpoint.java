@@ -34,7 +34,8 @@ public class OBUEndpoint implements IOBUEndpoint {
     @ResponsePayload
     public GetDriveHistoryResponse getDriveHistory(@RequestPayload GetDriveHistoryRequest request) {
         System.out.println("arg = [" + request + "]");
-        return obuService.getOBUDriveHistory(request.getOBUId(), new GetDriveHistoryResponse());
+        GetDriveHistoryResponse response = new GetDriveHistoryResponse();
+        return obuService.getOBUDriveHistory(request.getOBUId(), response);
     }
 
     //DONE - TODO:WRITE TESTS

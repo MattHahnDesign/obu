@@ -35,6 +35,7 @@
     <xs:complexType name="getCarErrorsRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -67,6 +68,7 @@
     <xs:complexType name="getCarParameterValueRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="carParameter" type="tns:carParameter" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
@@ -80,6 +82,7 @@
     <xs:complexType name="getDriveHistoryRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -115,6 +118,7 @@
     <xs:complexType name="getLocationRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -150,6 +154,7 @@
     <xs:complexType name="sendCarCommandRequest">
         <xs:sequence>
             <xs:element name="OBUId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="trr" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="carCommand" type="tns:carCommand" minOccurs="1" maxOccurs="1"/>
             <xs:element name="commandState" type="tns:commandState" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
