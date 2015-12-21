@@ -49,7 +49,7 @@ public class OBUEndpoint implements IOBUEndpoint {
     }
 
     //DONE - TODO:WRITE TESTS
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "receiveNotificationRequest")
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sendNotificationRequest")
     @ResponsePayload
     public SendNotificationResponse sendNotification(@RequestPayload SendNotificationRequest request) {
         System.out.println("request = [" + request + "]");
