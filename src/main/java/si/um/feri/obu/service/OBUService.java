@@ -4,6 +4,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
@@ -139,6 +141,12 @@ public class OBUService {
         }
     }
 
+    public GeoLocation getCurrentOBULocation(String obuId) {
+        GetLocationRequest getLocationRequest = new GetLocationRequest();
+        getLocationRequest.setOBUId(obuId);
+        return getCurrentOBULocation(getLocationRequest);
+    }
+
     public int sendNotificationToOBU(SendNotificationRequest request) {
         if(this.OBUs.get(request.getOBUId()).getNotificationsReceived()
                 .add(new Notification(new Date().getTime(), request.getMessage()))) {
@@ -156,4 +164,16 @@ public class OBUService {
         return response;
     }
 
+    public Set<String> getOBUKeys() {
+        return this.OBUs.keySet();
+    }
+
+    @Scheduled(fixedDelay = 5000)
+    public void getLocationOfOBU() {
+        if(OBUs.size()>0 && trackIds.size()>0) {
+            for(String obuId : OBUs.keySet()) {
+                getCurrentOBULocation(obuId);
+            }
+        }
+    }
 }
