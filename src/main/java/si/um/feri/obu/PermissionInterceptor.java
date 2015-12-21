@@ -38,7 +38,7 @@ public class PermissionInterceptor implements SoapEndpointInterceptor {
 
     @Override
     public boolean handleFault(MessageContext messageContext, Object o) throws Exception {
-        return false;
+        return true;
     }
 
     @Override

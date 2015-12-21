@@ -105,6 +105,9 @@ public class OBUService {
 
     public GeoLocation getCurrentOBULocation(GetLocationRequest request) {
         OBU obu = OBUs.get(request.getOBUId());
+        if(obu == null) {
+            return null;
+        }
         if(obu.getTrackStartedDateTime() <= new Date().getTime() && new Date().getTime() <= obu.getTrackEndDateTime()) {
             logg.info("magic");
             //do the magic and find location from track
@@ -125,17 +128,14 @@ public class OBUService {
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         } else {
             logg.info("not magic");
-            if(rand.nextBoolean()) { //if random boolean true, set ne track
-                obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
-                obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
-                obu.setTrackStartedDateTime(new Date().getTime());
-                obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
-                logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
-                OBUs.replace(request.getOBUId(), obu);
-                obuRepository.save(obu);
-                return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-            }
-            return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
+            obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
+            obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
+            obu.setTrackStartedDateTime(new Date().getTime());
+            obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
+            logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
+            OBUs.replace(request.getOBUId(), obu);
+            obuRepository.save(obu);
+            return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
         }
     }
 
