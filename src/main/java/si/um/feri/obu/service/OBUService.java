@@ -36,9 +36,6 @@ public class OBUService {
     private TrackRepository trackRepository;
 
     @Autowired
-    private JmsSender jmsSender;
-
-    @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
         this.obuRepository = obuRepository;
         this.trackRepository = trackRepository;
@@ -91,14 +88,6 @@ public class OBUService {
             logg.info("Duration od track: " + (obu.getCurrentTrack().getDuration() / 60) + " min");
 
             OBUs.put(obu.getId(), obu);
-
-            try {
-                jmsSender.publishMessage();
-            } catch (NamingException e) {
-                e.printStackTrace();
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
 
             return obu;
 
