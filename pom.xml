@@ -61,6 +61,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jms_1.1_spec</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.wso2.andes.wso2</groupId>
+            <artifactId>andes-client</artifactId>
+            <version>0.13.wso2v8</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.maps</groupId>
             <artifactId>google-maps-services</artifactId>
             <version>0.1.9</version>
@@ -303,5 +315,12 @@
             </build>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>wso2</id>
+            <url>http://maven.wso2.org/nexus/content/repositories/wso2maven2</url>
+        </repository>
+    </repositories>
 
 </project>

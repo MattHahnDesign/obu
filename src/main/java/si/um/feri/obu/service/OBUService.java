@@ -7,12 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import si.um.feri.obu.component.JmsSender;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.repository.OBURepository;
 import si.um.feri.obu.repository.TrackRepository;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import java.util.*;
 
 @Service
@@ -31,6 +34,9 @@ public class OBUService {
 
     private OBURepository obuRepository;
     private TrackRepository trackRepository;
+
+    @Autowired
+    private JmsSender jmsSender;
 
     @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
@@ -86,6 +92,14 @@ public class OBUService {
 
             OBUs.put(obu.getId(), obu);
 
+            try {
+                jmsSender.publishMessage();
+            } catch (NamingException e) {
+                e.printStackTrace();
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+
             return obu;
 
         } else {
@@ -111,30 +125,30 @@ public class OBUService {
             return null;
         }
         if(obu.getTrackStartedDateTime() <= new Date().getTime() && new Date().getTime() <= obu.getTrackEndDateTime()) {
-            logg.info("magic");
+            //logg.info("magic");
             //do the magic and find location from track
-            logg.info("duration: " + obu.getCurrentTrack().getDuration());
-            logg.info("trackPoints size: " + obu.getCurrentTrack().getTrackPoints().size());
+            //logg.info("duration: " + obu.getCurrentTrack().getDuration());
+            //logg.info("trackPoints size: " + obu.getCurrentTrack().getTrackPoints().size());
             long timeStep = obu.getCurrentTrack().getDuration() / obu.getCurrentTrack().getTrackPoints().size();
-            logg.info("timeStep:" + timeStep);
+            //logg.info("timeStep:" + timeStep);
             long currentTime = new Date().getTime();
             long timeSum = obu.getTrackStartedDateTime();
             for(int i=0; i<obu.getCurrentTrack().getTrackPoints().size(); i++) {
-                logg.info("current: " + currentTime + "   timesum:" + timeSum + "   diff:" + (currentTime-timeSum));
+                //logg.info("current: " + currentTime + "   timesum:" + timeSum + "   diff:" + (currentTime-timeSum));
                 if(timeSum+(timeStep * SECOND_IN_MS) >= currentTime) {
-                    logg.info("id trackPoint: " + i);
+                  //  logg.info("id trackPoint: " + i);
                     return obu.getCurrentTrack().getTrackPoints().get(i).getLocation();
                 }
                 timeSum += (timeStep * SECOND_IN_MS);
             }
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         } else {
-            logg.info("not magic");
+            //logg.info("not magic");
             obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
             obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
-            logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
+            //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
             OBUs.replace(request.getOBUId(), obu);
             obuRepository.save(obu);
             return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
@@ -155,8 +169,6 @@ public class OBUService {
         }
         return HttpStatus.CONFLICT.value();
     }
-
-
 
     public GetCarErrorsResponse getCarErrors(GetCarErrorsRequest request) {
         GetCarErrorsResponse response = new GetCarErrorsResponse();
