@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import si.um.feri.obu.component.JmsSender;
+import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
 import si.um.feri.obu.domain.xjc.*;
@@ -108,10 +109,18 @@ public class OBUService {
         return response;
     }
 
+    public GetDriveHistoryResponse getDriveHistoryResponse(String OBUid) {
+        GetDriveHistoryResponse response = new GetDriveHistoryResponse();
+        return getOBUDriveHistory(OBUid, response);
+    }
+
     public GeoLocation getCurrentOBULocation(GetLocationRequest request) {
         OBU obu = OBUs.get(request.getOBUId());
         if(obu == null) {
             return null;
+        }
+        if(obu.getFailure() != null) {
+            return obu.getFailure().getGeoLocation();
         }
         if(obu.getTrackStartedDateTime() <= new Date().getTime() && new Date().getTime() <= obu.getTrackEndDateTime()) {
             //logg.info("magic");
@@ -150,6 +159,90 @@ public class OBUService {
         return getCurrentOBULocation(getLocationRequest);
     }
 
+    private void generateCarParams(String obuId) {
+        OBU obu = OBUs.get(obuId);
+        float leftLimitPressure = 1.7f;
+        float rightLimitPressure = 2.8f;
+        float leftLimitOil = -5.0f;
+        float rightLimitOil = 5.0f;
+        float leftLimitTemp = 70.0f;
+        float rightLimitTemp = 85.0f;
+        if(obu.getCarParameters() == null) {
+            obu.setCarParameters(new HashMap<CarParameter, Float>());
+            obu.getCarParameters().put(CarParameter.OIL, 0f);
+            obu.getCarParameters().put(CarParameter.ENGINE_TEMPERATURE, 0.00f);
+            obu.getCarParameters().put(CarParameter.TYRE_PRESSURE, 2.2f);
+        }
+        obu.getCarParameters().replace(CarParameter.OIL, leftLimitOil + new Random().nextFloat() * (rightLimitOil - leftLimitOil));
+        obu.getCarParameters().replace(CarParameter.TYRE_PRESSURE, leftLimitPressure + new Random().nextFloat() * (rightLimitPressure - leftLimitPressure));
+        obu.getCarParameters().replace(CarParameter.ENGINE_TEMPERATURE, leftLimitTemp + new Random().nextFloat() * (rightLimitTemp - leftLimitTemp));
+
+        Random r = new Random();
+        int magicNum = r.nextInt(100-1) + 1;
+        if(magicNum >= 99) {
+            magicNum = r.nextInt(5-1) +1;
+
+            switch (magicNum) {
+                case 1: {
+                    //engine error: call servis - avtovleka
+                    CarError engineError = new CarError();
+                    engineError.setCode(CarErrorType.ENGINE.value() + "-ERROR: breakdown!");
+                    engineError.setTimestamp(new Date().getTime());
+                    engineError.setType(CarErrorType.ENGINE);
+                    obu.getCarErrors().add(engineError);
+                    obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
+                    //TODO: call avtoservis - avtovleka + obvesti dars
+                    break;
+                }
+
+                case 2: {
+                    //computer warn
+                    CarError computerWarn = new CarError();
+                    computerWarn.setCode(CarErrorType.COMPUTER.value() + "-WARN: unknown issue");
+                    computerWarn.setTimestamp(new Date().getTime());
+                    computerWarn.setType(CarErrorType.COMPUTER);
+                    obu.getCarErrors().add(computerWarn);
+                    break;
+                }
+
+                case 3: {
+                    //sensor warn
+                    CarError sensorWarn = new CarError();
+                    sensorWarn.setCode(CarErrorType.SENSOR.value() + "-WARN: unknown sensor issue");
+                    sensorWarn.setTimestamp(new Date().getTime());
+                    sensorWarn.setType(CarErrorType.SENSOR);
+                    obu.getCarErrors().add(sensorWarn);
+                    break;
+                }
+
+                case 4: {
+                    //sensor error: call servis - they'll fix it
+                    CarError sensorError = new CarError();
+                    sensorError.setCode(CarErrorType.SENSOR.value() + "-ERROR: sensor missread, need to restart computer");
+                    sensorError.setTimestamp(new Date().getTime());
+                    sensorError.setType(CarErrorType.SENSOR);
+                    obu.getCarErrors().add(sensorError);
+                    //todo: call avtoservis
+                    break;
+                }
+
+                case 5: {
+                    //computer error: call servis - avtovleka
+                    CarError computerError = new CarError();
+                    computerError.setCode(CarErrorType.COMPUTER.value() + "-ERROR: computer failure!");
+                    computerError.setTimestamp(new Date().getTime());
+                    computerError.setType(CarErrorType.COMPUTER);
+                    obu.getCarErrors().add(computerError);
+                    obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
+                    //todo: call avtoservis - avtovleka + obvesti dars
+                    break;
+                }
+            }
+            OBUs.replace(obuId, obu);
+            obuRepository.save(obu);
+        }
+    }
+
     public int sendNotificationToOBU(SendNotificationRequest request) {
         if(this.OBUs.get(request.getOBUId()).getNotificationsReceived()
                 .add(new Notification(new Date().getTime(), request.getMessage()))) {
@@ -165,6 +258,23 @@ public class OBUService {
         return response;
     }
 
+    public GetCarParameterValueResponse getCarParameter(GetCarParameterValueRequest request) {
+        GetCarParameterValueResponse response = new GetCarParameterValueResponse();
+        response.setValue(OBUs.get(request.getOBUId()).getCarParameters().get(request.getCarParameter()));
+        return response;
+    }
+
+    public GetCarParameterValueResponse getCarParameter(String OBUId, String carParameter) {
+        GetCarParameterValueRequest request = new GetCarParameterValueRequest();
+        request.setOBUId(OBUId);
+        request.setCarParameter(CarParameter.valueOf(carParameter));
+        return getCarParameter(request);
+    }
+
+    public Map<CarParameter, Float> getCarParams(String OBUid) {
+        return OBUs.get(OBUid).getCarParameters();
+    }
+
     public Set<String> getOBUKeys() {
         return this.OBUs.keySet();
     }
@@ -174,6 +284,7 @@ public class OBUService {
         if(OBUs.size()>0 && trackIds.size()>0) {
             for(String obuId : OBUs.keySet()) {
                 getCurrentOBULocation(obuId);
+                generateCarParams(obuId);
             }
         }
     }

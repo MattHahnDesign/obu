@@ -71,14 +71,12 @@ public class OBUEndpoint implements IOBUEndpoint {
         return response;
     }
 
-    //TODO
+    //DONE - TODO:WRITE TESTS
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterValueRequest")
     @ResponsePayload
     public GetCarParameterValueResponse getCarParameterValue(@RequestPayload GetCarParameterValueRequest request) {
         System.out.println("request = [" + request + "]");
-        GetCarParameterValueResponse response = new
-                GetCarParameterValueResponse();
-        return response;
+        return obuService.getCarParameter(request);
     }
 
     //DONE

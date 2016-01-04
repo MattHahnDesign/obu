@@ -169,9 +169,8 @@
 
     <xs:simpleType name="carParameter">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="FUEL"/>
             <xs:enumeration value="OIL"/>
-            <xs:enumeration value="TEMPERATURE"/>
+            <xs:enumeration value="ENGINE_TEMPERATURE"/>
             <xs:enumeration value="TYRE_PRESSURE"/>
         </xs:restriction>
     </xs:simpleType>

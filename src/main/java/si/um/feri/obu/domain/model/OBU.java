@@ -1,9 +1,13 @@
 package si.um.feri.obu.domain.model;
 
 import si.um.feri.obu.domain.xjc.CarError;
+import si.um.feri.obu.domain.xjc.CarParameter;
 import si.um.feri.obu.domain.xjc.Track;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OBU {
 
@@ -14,10 +18,16 @@ public class OBU {
     private List<String> drivenRoutesIds;
     private List<Notification> notificationsReceived;
     private List<CarError> carErrors;
-
+    private Failure failure;
+    private Map<CarParameter, Float> carParameters;
 
     public OBU() {
-        super();
+        this.failure = null;
+        this.carParameters = new HashMap<>();
+        this.carParameters.put(CarParameter.OIL, 0f);
+        this.carParameters.put(CarParameter.ENGINE_TEMPERATURE, 0.00f);
+        this.carParameters.put(CarParameter.TYRE_PRESSURE, 2.2f);
+        this.carErrors = new ArrayList<>();
     }
 
     public String getId() {
@@ -76,6 +86,22 @@ public class OBU {
         this.carErrors = carErrors;
     }
 
+    public Failure getFailure() {
+        return failure;
+    }
+
+    public void setFailure(Failure failure) {
+        this.failure = failure;
+    }
+
+    public Map<CarParameter, Float> getCarParameters() {
+        return carParameters;
+    }
+
+    public void setCarParameters(Map<CarParameter, Float> carParameters) {
+        this.carParameters = carParameters;
+    }
+
     @Override
     public String toString() {
         return "OBU{" +
@@ -86,6 +112,8 @@ public class OBU {
                 ", drivenRoutesIds=" + drivenRoutesIds +
                 ", notificationsReceived=" + notificationsReceived +
                 ", carErrors=" + carErrors +
+                ", failure=" + failure +
+                ", carParameters=" + carParameters +
                 '}';
     }
 }

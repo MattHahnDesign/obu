@@ -79,7 +79,7 @@ public class WSEndpointDevTest {
     public void testSendAndReceiveCarParameterValue() {
         GetCarParameterValueRequest request = new GetCarParameterValueRequest();
         request.setOBUId("some_id");
-        request.setCarParameter(CarParameter.FUEL);
+        request.setCarParameter(CarParameter.OIL);
         assertNotNull(new WebServiceTemplate(marshaller).marshalSendAndReceive(HOST + port + WS, request));
     }
 
