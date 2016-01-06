@@ -20,6 +20,7 @@ public class OBU {
     private List<CarError> carErrors;
     private Failure failure;
     private Map<CarParameter, Float> carParameters;
+    private Integer reservationID;
 
     public OBU() {
         this.failure = null;
@@ -102,6 +103,14 @@ public class OBU {
         this.carParameters = carParameters;
     }
 
+    public Integer getReservationID() {
+        return reservationID;
+    }
+
+    public void setReservationID(Integer reservationID) {
+        this.reservationID = reservationID;
+    }
+
     @Override
     public String toString() {
         return "OBU{" +
@@ -114,6 +123,7 @@ public class OBU {
                 ", carErrors=" + carErrors +
                 ", failure=" + failure +
                 ", carParameters=" + carParameters +
+                ", reservationID=" + reservationID +
                 '}';
     }
 }

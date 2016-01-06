@@ -1,5 +1,6 @@
 package si.um.feri.obu.service;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ import si.um.feri.obu.wsservice.avtoservis2.TehnicnaPomocImplService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService_Service;
 import si.um.feri.obu.wsservice.dars1.Lokacija;
+import si.um.feri.obu.wsservice.parkirisce2.Rezervacije;
+import si.um.feri.obu.wsservice.parkirisce2.SemicolonRezervacije;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.*;
 
 @Service
@@ -44,6 +48,7 @@ public class OBUService {
 
     private DarsDataService dds;
     private TehnicnaPomoc tp;
+    private SemicolonRezervacije park;
 
     @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
@@ -51,6 +56,7 @@ public class OBUService {
         this.trackRepository = trackRepository;
         this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
         this.tp = new TehnicnaPomocImplService().getTehnicnaPomocPort();
+        this.park = new Rezervacije().getBasicHttpBindingSemicolonRezervacije();
         populateOBUs();
         populateTrackIds();
     }
@@ -159,11 +165,20 @@ public class OBUService {
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
             //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
             GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-            Lokacija lokacija = new Lokacija();
-            lokacija.setSirina((double)gc.getLon());
-            lokacija.setDolzina((double)gc.getLat());
-            this.dds.pridobiZaporeNaPoti(lokacija);
-            this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija);
+            if(gc!=null) {
+                logg.info("Klicem service ker ni NULL- -------");
+                Lokacija lokacija = new Lokacija();
+                lokacija.setSirina((double)gc.getLon());
+                lokacija.setDolzina((double)gc.getLat());
+                this.dds.pridobiZaporeNaPoti(lokacija);
+                this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija);
+            }
+            XMLGregorianCalendar start = new XMLGregorianCalendarImpl(new GregorianCalendar());
+            GregorianCalendar endGC = new GregorianCalendar();
+            endGC.add(Calendar.HOUR_OF_DAY,1);
+            XMLGregorianCalendar end = new XMLGregorianCalendarImpl(end);
+            int parkID = park.rezervirajParkirnoMesto(request.getOBUId(),start,end);
+            obu.setReservationID(parkID);
             OBUs.replace(request.getOBUId(), obu);
             obuRepository.save(obu);
             return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
