@@ -14,6 +14,9 @@ import si.um.feri.obu.domain.model.OBU;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.repository.OBURepository;
 import si.um.feri.obu.repository.TrackRepository;
+import si.um.feri.obu.wsservice.dars1.DarsDataService;
+import si.um.feri.obu.wsservice.dars1.DarsDataService_Service;
+import si.um.feri.obu.wsservice.dars1.Lokacija;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -36,10 +39,14 @@ public class OBUService {
     private OBURepository obuRepository;
     private TrackRepository trackRepository;
 
+
+    private DarsDataService dds;
+
     @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
         this.obuRepository = obuRepository;
         this.trackRepository = trackRepository;
+        this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
         populateOBUs();
         populateTrackIds();
     }
@@ -147,6 +154,12 @@ public class OBUService {
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
             //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
+            GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
+            Lokacija lokacija = new Lokacija();
+            lokacija.setSirina((double)gc.getLon());
+            lokacija.setDolzina((double)gc.getLat());
+            this.dds.pridobiZaporeNaPoti(lokacija);
+            this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija);
             OBUs.replace(request.getOBUId(), obu);
             obuRepository.save(obu);
             return obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
@@ -191,7 +204,7 @@ public class OBUService {
                     engineError.setType(CarErrorType.ENGINE);
                     obu.getCarErrors().add(engineError);
                     obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
-                    //TODO: call avtoservis - avtovleka + obvesti dars
+                    //TODO: call avtoservis - avtovleka + obvesti dars1
                     break;
                 }
 
@@ -212,6 +225,12 @@ public class OBUService {
                     sensorWarn.setTimestamp(new Date().getTime());
                     sensorWarn.setType(CarErrorType.SENSOR);
                     obu.getCarErrors().add(sensorWarn);
+
+                    GeoLocation loc = getCurrentOBULocation(obuId);
+                    Lokacija lokacija = new Lokacija();
+                    lokacija.setDolzina((double)loc.getLon());
+                    lokacija.setSirina((double)loc.getLat());
+                    this.dds.pridobiVremenskoNapovedNaPoti(lokacija);
                     break;
                 }
 
@@ -234,7 +253,7 @@ public class OBUService {
                     computerError.setType(CarErrorType.COMPUTER);
                     obu.getCarErrors().add(computerError);
                     obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
-                    //todo: call avtoservis - avtovleka + obvesti dars
+                    //todo: call avtoservis - avtovleka + obvesti dars1
                     break;
                 }
             }

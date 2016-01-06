@@ -20,7 +20,7 @@ public class JmsSender {
     private static String CARBON_VIRTUAL_HOST_NAME = "carbon";
     private static String CARBON_DEFAULT_HOSTNAME = "svizec.informatika.uni-mb.si";
     private static String CARBON_DEFAULT_PORT = "9453";
-    String topicName = "obu2/dars";
+    String topicName = "obu2/dars1";
 
 
     public void publishMessage() throws NamingException, JMSException {
