@@ -164,8 +164,8 @@ public class OBUService {
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
             //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
-            GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-            if(gc!=null) {
+            if(obu.getCurrentTrack().getTrackPoints().size()>0) {
+                GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
                 logg.info("Klicem service ker ni NULL- -------");
                 Lokacija lokacija = new Lokacija();
                 lokacija.setSirina((double)gc.getLon());
@@ -176,7 +176,7 @@ public class OBUService {
             XMLGregorianCalendar start = new XMLGregorianCalendarImpl(new GregorianCalendar());
             GregorianCalendar endGC = new GregorianCalendar();
             endGC.add(Calendar.HOUR_OF_DAY,1);
-            XMLGregorianCalendar end = new XMLGregorianCalendarImpl(end);
+            XMLGregorianCalendar end = new XMLGregorianCalendarImpl(endGC);
             int parkID = park.rezervirajParkirnoMesto(request.getOBUId(),start,end);
             obu.setReservationID(parkID);
             OBUs.replace(request.getOBUId(), obu);
