@@ -14,6 +14,8 @@ import si.um.feri.obu.domain.model.OBU;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.repository.OBURepository;
 import si.um.feri.obu.repository.TrackRepository;
+import si.um.feri.obu.wsservice.avtoservis2.TehnicnaPomoc;
+import si.um.feri.obu.wsservice.avtoservis2.TehnicnaPomocImplService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService_Service;
 import si.um.feri.obu.wsservice.dars1.Lokacija;
@@ -41,12 +43,14 @@ public class OBUService {
 
 
     private DarsDataService dds;
+    private TehnicnaPomoc tp;
 
     @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
         this.obuRepository = obuRepository;
         this.trackRepository = trackRepository;
         this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
+        this.tp = new TehnicnaPomocImplService().getTehnicnaPomocPort();
         populateOBUs();
         populateTrackIds();
     }
@@ -204,7 +208,7 @@ public class OBUService {
                     engineError.setType(CarErrorType.ENGINE);
                     obu.getCarErrors().add(engineError);
                     obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
-                    //TODO: call avtoservis - avtovleka + obvesti dars1
+                    //TODO: call avtoservis - avtovleka + obvesti dars1 NIMAJO PODPORE ZA MONGO ID
                     break;
                 }
 
