@@ -5,10 +5,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import si.um.feri.obu.component.JmsSender;
 import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
@@ -23,8 +21,6 @@ import si.um.feri.obu.wsservice.dars1.Lokacija;
 import si.um.feri.obu.wsservice.parkirisce2.Rezervacije;
 import si.um.feri.obu.wsservice.parkirisce2.SemicolonRezervacije;
 
-import javax.jms.JMSException;
-import javax.naming.NamingException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.*;
 
@@ -166,12 +162,11 @@ public class OBUService {
             //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
             if(obu.getCurrentTrack().getTrackPoints().size()>0) {
                 GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-                logg.info("Klicem service ker ni NULL- -------");
                 Lokacija lokacija = new Lokacija();
                 lokacija.setSirina((double)gc.getLon());
                 lokacija.setDolzina((double)gc.getLat());
-                this.dds.pridobiZaporeNaPoti(lokacija);
-                this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija);
+                logg.info("Klic WS - pridobi zapore na poti - return:" + this.dds.pridobiZaporeNaPoti(lokacija).getZapora().size());
+                logg.info("Klic WS - pridobi naslednjo bencinsko črpalko - return:" + this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija).getIme());
             }
             XMLGregorianCalendar start = new XMLGregorianCalendarImpl(new GregorianCalendar());
             GregorianCalendar endGC = new GregorianCalendar();
@@ -249,7 +244,7 @@ public class OBUService {
                     Lokacija lokacija = new Lokacija();
                     lokacija.setDolzina((double)loc.getLon());
                     lokacija.setSirina((double)loc.getLat());
-                    this.dds.pridobiVremenskoNapovedNaPoti(lokacija);
+                    logg.info("Klic WS - pridobi vremensko napoved na poti - return:" + this.dds.pridobiVremenskoNapovedNaPoti(lokacija).getOpis().getValue());
                     break;
                 }
 
