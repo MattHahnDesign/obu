@@ -13,7 +13,7 @@ build:
     - script:
         name: Run Maven command mvn clean test -Ptest
         code: |
-          mvn clean test -Ptest
+          mvn package -Ptest -DskipTests=true
   after-steps:
     - slack-notifier:
         url: $SLACK_WEBHOOK_URL
