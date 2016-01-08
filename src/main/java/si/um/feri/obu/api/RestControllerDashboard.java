@@ -48,8 +48,8 @@ public class RestControllerDashboard {
     }
 
     @RequestMapping(value= "/{obuId}/currentTrack", method = RequestMethod.GET, produces = "application/json")
-    public Track getCurrentTrack(@PathVariable("obuId") String obuId) {
-        return obuService.getCarCurrentTrack(obuId);
+    public GeoLocation getCurrentTrack(@PathVariable("obuId") String obuId) {
+        return obuService.getCarEndTrackPointGeoLocation(obuId);
     }
 
     @RequestMapping(value = "/{obuId}/carErrors", method = RequestMethod.GET, produces = "application/json")
