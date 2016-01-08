@@ -47,7 +47,7 @@ public class RestControllerDashboard {
         return obuService.getCarParams(obuId);
     }
 
-    @RequestMapping(value= "/{obuId}/currentTrack", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value= "/{obuId}/currentTrackEndLocation", method = RequestMethod.GET, produces = "application/json")
     public GeoLocation getCurrentTrack(@PathVariable("obuId") String obuId) {
         return obuService.getCarEndTrackPointGeoLocation(obuId);
     }
