@@ -86,7 +86,7 @@ public class OBUService {
     public OBU createNewOBU() {
         if(OBUs != null && trackIds != null) {
             OBU obu = new OBU();
-            obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
+            obu.setCurrentTrack(getRandomTrack());
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS)); // * 1000 to convert from second to milis
             obu.setDrivenRoutesIds(new ArrayList<>());
@@ -156,18 +156,10 @@ public class OBUService {
         } else {
             //logg.info("not magic");
             obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
-            obu.setCurrentTrack(trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size()))));
+            obu.setCurrentTrack(getRandomTrack());
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
             //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
-            if(obu.getCurrentTrack().getTrackPoints().size()>0) {
-                GeoLocation gc = obu.getCurrentTrack().getTrackPoints().get(0).getLocation();
-                Lokacija lokacija = new Lokacija();
-                lokacija.setSirina((double)gc.getLon());
-                lokacija.setDolzina((double)gc.getLat());
-                logg.info("Klic WS - pridobi zapore na poti - return:" + this.dds.pridobiZaporeNaPoti(lokacija).getZapora().size());
-                logg.info("Klic WS - pridobi naslednjo bencinsko črpalko - return:" + this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija).getIme());
-            }
             XMLGregorianCalendar start = new XMLGregorianCalendarImpl(new GregorianCalendar());
             GregorianCalendar endGC = new GregorianCalendar();
             endGC.add(Calendar.HOUR_OF_DAY,1);
@@ -180,10 +172,20 @@ public class OBUService {
         }
     }
 
+    private Track getRandomTrack() {
+        Track track = trackRepository.findOne(trackIds.get(rand.nextInt(trackIds.size())));
+        if(track == null)
+            return getRandomTrack();
+        return track;
+    }
+
     public GeoLocation getCurrentOBULocation(String obuId) {
         GetLocationRequest getLocationRequest = new GetLocationRequest();
         getLocationRequest.setOBUId(obuId);
-        return getCurrentOBULocation(getLocationRequest);
+        GeoLocation loc = getCurrentOBULocation(getLocationRequest);
+        if(loc == null)
+            return getCurrentOBULocation(obuId);
+        return loc;
     }
 
     private void generateCarParams(String obuId) {
@@ -229,6 +231,13 @@ public class OBUService {
                     computerWarn.setTimestamp(new Date().getTime());
                     computerWarn.setType(CarErrorType.COMPUTER);
                     obu.getCarErrors().add(computerWarn);
+
+                    GeoLocation gc = getCurrentOBULocation(obuId);
+                    Lokacija lokacija = new Lokacija();
+                    lokacija.setSirina((double)gc.getLon());
+                    lokacija.setDolzina((double)gc.getLat());
+                    logg.info("Klic WS - pridobi zapore na poti - return:" + this.dds.pridobiZaporeNaPoti(lokacija));
+                    logg.info("Klic WS - pridobi naslednjo bencinsko črpalko - return:" + this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija));
                     break;
                 }
 
@@ -244,7 +253,7 @@ public class OBUService {
                     Lokacija lokacija = new Lokacija();
                     lokacija.setDolzina((double)loc.getLon());
                     lokacija.setSirina((double)loc.getLat());
-                    logg.info("Klic WS - pridobi vremensko napoved na poti - return:" + this.dds.pridobiVremenskoNapovedNaPoti(lokacija).getOpis().getValue());
+                    logg.info("Klic WS - pridobi vremensko napoved na poti - return:" + this.dds.pridobiVremenskoNapovedNaPoti(lokacija));
                     break;
                 }
 
@@ -302,6 +311,14 @@ public class OBUService {
         request.setOBUId(OBUId);
         request.setCarParameter(CarParameter.valueOf(carParameter));
         return getCarParameter(request);
+    }
+
+    public List<CarError> getCarErrors(String obuId) {
+        return OBUs.get(obuId).getCarErrors();
+    }
+
+    public Track getCarCurrentTrack(String obuId) {
+        return OBUs.get(obuId).getCurrentTrack();
     }
 
     public Map<CarParameter, Float> getCarParams(String OBUid) {

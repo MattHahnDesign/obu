@@ -12,9 +12,5 @@ public class ObuApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ObuApplication.class, args);
-
-        // Launch the application
-        //ConfigurableApplicationContext context = SpringApplication.run(ObuApplication.class, args);
-
     }
 }
