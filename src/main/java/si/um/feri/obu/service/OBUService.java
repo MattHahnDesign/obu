@@ -308,8 +308,10 @@ public class OBUService {
         return OBUs.get(obuId).getCarErrors();
     }
 
-    public Track getCarCurrentTrack(String obuId) {
-        return OBUs.get(obuId).getCurrentTrack();
+    public GeoLocation getCarEndTrackPointGeoLocation(String obuId) {
+        if(OBUs.get(obuId).getFailure() != null)
+            return OBUs.get(obuId).getFailure().getGeoLocation();
+        return OBUs.get(obuId).getCurrentTrack().getTrackPoints().get(OBUs.get(obuId).getCurrentTrack().getTrackPoints().size()-1).getLocation();
     }
 
     public Map<CarParameter, Float> getCarParams(String OBUid) {
