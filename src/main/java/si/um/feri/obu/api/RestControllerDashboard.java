@@ -1,27 +1,27 @@
 package si.um.feri.obu.api;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.service.OBUService;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/api")
 public class RestControllerDashboard {
 
     @Autowired
     OBUService obuService;
 
-    //Dashboard REST API
     @RequestMapping(value = "/ids", method = RequestMethod.GET)
     public Set<String> getAllOBUIds() {
         return obuService.getOBUKeys();

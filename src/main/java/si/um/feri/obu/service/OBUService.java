@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
@@ -113,13 +114,16 @@ public class OBUService {
     }
 
     public GetDriveHistoryResponse getOBUDriveHistory(String OBUId, GetDriveHistoryResponse response) {
-        List<String> trackIds = this.OBUs.get(OBUId).getDrivenRoutesIds();
+        if(OBUs.containsKey(OBUId)) {
+            List<String> trackIds = this.OBUs.get(OBUId).getDrivenRoutesIds();
 
-        for(String id : trackIds) {
-            response.getTracks().add(trackRepository.findOne(id));
+            for(String id : trackIds) {
+                response.getTracks().add(trackRepository.findOne(id));
+            }
+            return response;
         }
 
-        return response;
+        throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
 
     public GetDriveHistoryResponse getDriveHistoryResponse(String OBUid) {
@@ -128,6 +132,8 @@ public class OBUService {
     }
 
     public GeoLocation getCurrentOBULocation(GetLocationRequest request) {
+        if(!OBUs.containsKey(request.getOBUId()))
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         OBU obu = OBUs.get(request.getOBUId());
         if(obu == null) {
             return null;
@@ -277,6 +283,8 @@ public class OBUService {
     }
 
     public int sendNotificationToOBU(SendNotificationRequest request) {
+        if(!OBUs.containsKey(request.getOBUId()))
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         if(this.OBUs.get(request.getOBUId()).getNotificationsReceived()
                 .add(new Notification(new Date().getTime(), request.getMessage()))) {
             obuRepository.save(this.OBUs.get(request.getOBUId()));
@@ -286,12 +294,16 @@ public class OBUService {
     }
 
     public GetCarErrorsResponse getCarErrors(GetCarErrorsRequest request) {
+        if(!OBUs.containsKey(request.getOBUId()))
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         GetCarErrorsResponse response = new GetCarErrorsResponse();
         response.getErrors().addAll(this.OBUs.get(request.getOBUId()).getCarErrors());
         return response;
     }
 
     public GetCarParameterValueResponse getCarParameter(GetCarParameterValueRequest request) {
+        if(!OBUs.containsKey(request.getOBUId()))
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         GetCarParameterValueResponse response = new GetCarParameterValueResponse();
         response.setValue(OBUs.get(request.getOBUId()).getCarParameters().get(request.getCarParameter()));
         return response;
@@ -305,6 +317,8 @@ public class OBUService {
     }
 
     public List<CarError> getCarErrors(String obuId) {
+        if(!OBUs.containsKey(obuId))
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
         return OBUs.get(obuId).getCarErrors();
     }
 
