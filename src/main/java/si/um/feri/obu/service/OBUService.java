@@ -136,30 +136,21 @@ public class OBUService {
             return obu.getFailure().getGeoLocation();
         }
         if(obu.getTrackStartedDateTime() <= new Date().getTime() && new Date().getTime() <= obu.getTrackEndDateTime()) {
-            //logg.info("magic");
-            //do the magic and find location from track
-            //logg.info("duration: " + obu.getCurrentTrack().getDuration());
-            //logg.info("trackPoints size: " + obu.getCurrentTrack().getTrackPoints().size());
             long timeStep = obu.getCurrentTrack().getDuration() / obu.getCurrentTrack().getTrackPoints().size();
-            //logg.info("timeStep:" + timeStep);
             long currentTime = new Date().getTime();
             long timeSum = obu.getTrackStartedDateTime();
             for(int i=0; i<obu.getCurrentTrack().getTrackPoints().size(); i++) {
-                //logg.info("current: " + currentTime + "   timesum:" + timeSum + "   diff:" + (currentTime-timeSum));
                 if(timeSum+(timeStep * SECOND_IN_MS) >= currentTime) {
-                  //  logg.info("id trackPoint: " + i);
                     return obu.getCurrentTrack().getTrackPoints().get(i).getLocation();
                 }
                 timeSum += (timeStep * SECOND_IN_MS);
             }
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         } else {
-            //logg.info("not magic");
             obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
             obu.setCurrentTrack(getRandomTrack());
             obu.setTrackStartedDateTime(new Date().getTime());
             obu.setTrackEndDateTime(obu.getTrackStartedDateTime() + (obu.getCurrentTrack().getDuration() * SECOND_IN_MS));
-            //logg.info("OBU IS DRIVING NEW TRACK: " + obu.getCurrentTrack().getId());
             XMLGregorianCalendar start = new XMLGregorianCalendarImpl(new GregorianCalendar());
             GregorianCalendar endGC = new GregorianCalendar();
             endGC.add(Calendar.HOUR_OF_DAY,1);
