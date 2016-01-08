@@ -1,11 +1,16 @@
 package si.um.feri.obu.domain.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import si.um.feri.obu.domain.xjc.CarCommand;
 import si.um.feri.obu.domain.xjc.CommandState;
 
+@ApiModel(value = "Car Command Parameter", description = "Object with car command and its state")
 public class CarCommandParameter {
 
+    @ApiModelProperty(value = "One of the possible car commands ", required = true)
     private CarCommand carCommand;
+    @ApiModelProperty(value = "One of the possible car command states ", required = true)
     private CommandState commandState;
 
     public CarCommandParameter() {

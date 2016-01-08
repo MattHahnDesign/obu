@@ -233,6 +233,7 @@ public class OBUService {
                     Lokacija lokacija = new Lokacija();
                     lokacija.setSirina((double)gc.getLon());
                     lokacija.setDolzina((double)gc.getLat());
+
                     logg.info("Klic WS - pridobi zapore na poti - return:" + this.dds.pridobiZaporeNaPoti(lokacija));
                     logg.info("Klic WS - pridobi naslednjo bencinsko črpalko - return:" + this.dds.pridobiNaslednjoBencinskoCrpalko(lokacija));
                     break;

@@ -97,7 +97,7 @@ public class RestControllerOBU {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found - OBU with given id doesn't exist!"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/{obuId}/{trr}/parameter/{parameter}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{obuId}/{trr}/parameter/{parameter}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GetCarParameterValueResponse getCarParameterValue(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr,
                                                              @PathVariable("parameter") String parameter) {
         GetCarParameterValueRequest request = new GetCarParameterValueRequest();
@@ -129,7 +129,7 @@ public class RestControllerOBU {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/{obuId}/{trr}/commandStateList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public GetCarCommandStateListReponse getCarCommandStateList() {
+    public GetCarCommandStateListReponse getCarCommandStateList(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr) {
         GetCarCommandStateListReponse response = new GetCarCommandStateListReponse();
         for(CommandState cs : CommandState.values()) {
             response.getCommandStates().add(cs);
@@ -145,7 +145,7 @@ public class RestControllerOBU {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/{obuId}/{trr}/command", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SendCarCommandResponse sendCarCommand(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr,
-                                                 @RequestParam("carCommand") CarCommandParameter carCommandParameter) {
+                                                 @RequestBody CarCommandParameter carCommandParameter) {
         SendCarCommandResponse response = new SendCarCommandResponse();
         response.setStatus(HttpStatus.OK.value());
         return response;
