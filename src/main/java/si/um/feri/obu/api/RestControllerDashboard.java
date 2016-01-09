@@ -32,6 +32,8 @@ public class RestControllerDashboard {
     @RequestMapping(value = "/methods", method = RequestMethod.GET)
     public List<String> getMethods() {
 
+        if(methods.size()>0)
+            return methods;
         for(Method method : OBUEndpoint.class.getDeclaredMethods()) {
             methods.add(method.getName());
         }
