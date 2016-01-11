@@ -205,6 +205,10 @@ public class OBUService {
 
     private void generateCarParams(String obuId) {
         OBU obu = OBUs.get(obuId);
+
+        if(obu.getFailure() != null) {
+            return;
+        }
         float leftLimitPressure = 1.7f;
         float rightLimitPressure = 2.8f;
         float leftLimitOil = -5.0f;
