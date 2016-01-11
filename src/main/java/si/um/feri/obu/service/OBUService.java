@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
+import si.um.feri.obu.domain.model.RegisterPermissionResponse;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.repository.OBURepository;
 import si.um.feri.obu.repository.TrackRepository;
@@ -34,6 +36,8 @@ public class OBUService {
     private static int MINUTE_IN_MS = 60000;
     private static int SECOND_IN_MS = 1000;
 
+    private static String REGISTER_URL = "http://register-stirkac.rhcloud.com/api/users/";
+
     private HashMap<String, OBU> OBUs;
     private List<String> trackIds;
 
@@ -41,6 +45,8 @@ public class OBUService {
 
     private OBURepository obuRepository;
     private TrackRepository trackRepository;
+
+    private RestTemplate restTemplate;
 
 
     private DarsDataService dds;
@@ -51,6 +57,7 @@ public class OBUService {
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
         this.obuRepository = obuRepository;
         this.trackRepository = trackRepository;
+        this.restTemplate = new RestTemplate();
         this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
         this.tp = new TehnicnaPomocImplService().getTehnicnaPomocPort();
         this.park = new Rezervacije().getBasicHttpBindingSemicolonRezervacije();
@@ -82,6 +89,13 @@ public class OBUService {
         logg.info("POPULATE TRACKs:" + this.trackIds.size());
 
         return true;
+    }
+
+    public boolean hasPermission(String obuId, String trr, String method) {
+        RegisterPermissionResponse response = restTemplate.getForObject(REGISTER_URL + trr + "/obus/" + obuId + "/access_right/" + method, RegisterPermissionResponse.class);
+        if(response != null)
+            return response.isAllowed();
+        return false;
     }
 
     public OBU createNewOBU() {
@@ -151,6 +165,9 @@ public class OBUService {
                 }
                 timeSum += (timeStep * SECOND_IN_MS);
             }
+            if(obu.getReservationID() != null) {
+                logg.info("Klic WS - odpovej rezervacijo - return:" + this.park.odpovejRezervacijo(obu.getReservationID()));
+            }
             return obu.getCurrentTrack().getTrackPoints().get(obu.getCurrentTrack().getTrackPoints().size()-1).getLocation();
         } else {
             obu.getDrivenRoutesIds().add(obu.getCurrentTrack().getId());
@@ -161,7 +178,8 @@ public class OBUService {
             GregorianCalendar endGC = new GregorianCalendar();
             endGC.add(Calendar.HOUR_OF_DAY,1);
             XMLGregorianCalendar end = new XMLGregorianCalendarImpl(endGC);
-            int parkID = park.rezervirajParkirnoMesto(request.getOBUId(),start,end);
+            int parkID = this.park.rezervirajParkirnoMesto(request.getOBUId(),start,end);
+            logg.info("Klic WS - rezerviraj parkirno mesto - return:" + parkID);
             obu.setReservationID(parkID);
             OBUs.replace(request.getOBUId(), obu);
             obuRepository.save(obu);
@@ -217,7 +235,7 @@ public class OBUService {
                     engineError.setType(CarErrorType.ENGINE);
                     obu.getCarErrors().add(engineError);
                     obu.setFailure(new Failure(new Date().getTime(), getCurrentOBULocation(obuId)));
-                    //TODO: call avtoservis - avtovleka + obvesti dars1 NIMAJO PODPORE ZA MONGO ID
+                    //TODO: call avtoservis - avtovleka + obvesti dars1
                     break;
                 }
 

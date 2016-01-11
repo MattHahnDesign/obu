@@ -43,7 +43,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new SimpleXsdSchema(new ClassPathResource("obu.xsd"));
     }
 
-    @Bean
+    /*@Bean
     PermissionInterceptor permissionInterceptor() {
         PermissionInterceptor permissionInterceptor = new PermissionInterceptor();
         return permissionInterceptor;
@@ -52,5 +52,5 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Override
     public void addInterceptors(List<EndpointInterceptor> interceptors) {
         interceptors.add(permissionInterceptor());
-    }
+    }*/
 }
