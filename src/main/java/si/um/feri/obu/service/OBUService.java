@@ -16,8 +16,6 @@ import si.um.feri.obu.domain.model.RegisterPermissionResponse;
 import si.um.feri.obu.domain.xjc.*;
 import si.um.feri.obu.repository.OBURepository;
 import si.um.feri.obu.repository.TrackRepository;
-import si.um.feri.obu.wsservice.avtoservis2.TehnicnaPomoc;
-import si.um.feri.obu.wsservice.avtoservis2.TehnicnaPomocImplService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService;
 import si.um.feri.obu.wsservice.dars1.DarsDataService_Service;
 import si.um.feri.obu.wsservice.dars1.Lokacija;
@@ -50,7 +48,6 @@ public class OBUService {
 
 
     private DarsDataService dds;
-    private TehnicnaPomoc tp;
     private SemicolonRezervacije park;
 
     @Autowired
@@ -59,7 +56,6 @@ public class OBUService {
         this.trackRepository = trackRepository;
         this.restTemplate = new RestTemplate();
         this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
-        this.tp = new TehnicnaPomocImplService().getTehnicnaPomocPort();
         this.park = new Rezervacije().getBasicHttpBindingSemicolonRezervacije();
         populateOBUs();
         populateTrackIds();
