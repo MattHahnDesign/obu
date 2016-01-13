@@ -35,35 +35,35 @@ public class OBUEndpoint implements IOBUEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getDriveHistoryRequest")
     @ResponsePayload
     public GetDriveHistoryResponse getDriveHistory(@RequestPayload GetDriveHistoryRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getDriveHistory")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getDriveHistory")) {
             GetDriveHistoryResponse response = new GetDriveHistoryResponse();
             return obuService.getOBUDriveHistory(request.getOBUId(), response);
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 
     //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLocationRequest")
     @ResponsePayload
     public GetLocationResponse getLocation(@RequestPayload GetLocationRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getLocation")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getLocation")) {
             GetLocationResponse response = new GetLocationResponse();
             response.setGeoLocation(obuService.getCurrentOBULocation(request));
             return response;
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 
     //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sendNotificationRequest")
     @ResponsePayload
     public SendNotificationResponse sendNotification(@RequestPayload SendNotificationRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "sendNotification")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "sendNotification")) {
             SendNotificationResponse response = new SendNotificationResponse();
             response.setStatus(obuService.sendNotificationToOBU(request));
             return response;
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 
     //DONE
@@ -82,10 +82,10 @@ public class OBUEndpoint implements IOBUEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarParameterValueRequest")
     @ResponsePayload
     public GetCarParameterValueResponse getCarParameterValue(@RequestPayload GetCarParameterValueRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getCarParameterValue")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getCarParameterValue")) {
             return obuService.getCarParameter(request);
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 
     //DONE
@@ -104,21 +104,21 @@ public class OBUEndpoint implements IOBUEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "sendCarCommandRequest")
     @ResponsePayload
     public SendCarCommandResponse sendCarCommand(@RequestPayload SendCarCommandRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "sendCarCommand")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "sendCarCommand")) {
             SendCarCommandResponse response = new SendCarCommandResponse();
             response.setStatus(200);
             return response;
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 
     //DONE
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCarErrorsRequest")
     @ResponsePayload
     public GetCarErrorsResponse getCarErrors(@RequestPayload GetCarErrorsRequest request) {
-        if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getCarErrors")) {
+        //if(obuService.hasPermission(request.getOBUId(), request.getTrr(), "getCarErrors")) {
             return obuService.getCarErrors(request);
-        }
-        throw new SoapFaultException(NOT_ALLOWED);
+        //}
+        //throw new SoapFaultException(NOT_ALLOWED);
     }
 }

@@ -39,12 +39,12 @@ public class RestControllerOBU {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/{obuId}/{trr}/location", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GetLocationResponse getOBULocation(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr) {
-        if(obuService.hasPermission(OBUId, trr, "getLocation")) {
+        //if(obuService.hasPermission(OBUId, trr, "getLocation")) {
             GetLocationResponse response = new GetLocationResponse();
             response.setGeoLocation(obuService.getCurrentOBULocation(OBUId));
             return response;
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 
     @ApiOperation(value = "Returns histroy of OBU driven routes with given id", response = GetDriveHistoryResponse.class)
@@ -55,11 +55,11 @@ public class RestControllerOBU {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/{obuId}/{trr}/driveHistory", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GetDriveHistoryResponse getDriveHistroy(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr) {
-        if(obuService.hasPermission(OBUId, trr, "getDriveHistory")) {
+        //if(obuService.hasPermission(OBUId, trr, "getDriveHistory")) {
             GetDriveHistoryResponse response = new GetDriveHistoryResponse();
             return obuService.getOBUDriveHistory(OBUId, response);
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 
     @ApiOperation(value = "Post new notification to OBU with given id", response = SendNotificationResponse.class)
@@ -74,15 +74,15 @@ public class RestControllerOBU {
     @RequestMapping(value = "/{obuId}/{trr}/notification", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SendNotificationResponse sendNotification(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr,
                                                      @RequestParam("notification") String message) {
-        if(obuService.hasPermission(OBUId, trr, "sendNotification")) {
+        //if(obuService.hasPermission(OBUId, trr, "sendNotification")) {
             SendNotificationResponse response = new SendNotificationResponse();
             SendNotificationRequest request = new SendNotificationRequest();
             request.setOBUId(OBUId);
             request.setMessage(message);
             response.setStatus(obuService.sendNotificationToOBU(request));
             return response;
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 
     @ApiOperation(value = "Returns list of all posible car parameters", response = GetCarParameterListResponse.class)
@@ -109,7 +109,7 @@ public class RestControllerOBU {
     @RequestMapping(value = "/{obuId}/{trr}/parameter/{parameter}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GetCarParameterValueResponse getCarParameterValue(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr,
                                                              @PathVariable("parameter") String parameter) {
-        if(obuService.hasPermission(OBUId, trr, "getCarParameterValue")) {
+        //if(obuService.hasPermission(OBUId, trr, "getCarParameterValue")) {
             GetCarParameterValueRequest request = new GetCarParameterValueRequest();
             request.setOBUId(OBUId);
             request.setTrr(trr);
@@ -117,8 +117,8 @@ public class RestControllerOBU {
                 throw new IllegalArgumentException("Given parameter does not exist!");
             request.setCarParameter(CarParameter.fromValue(parameter));
             return obuService.getCarParameter(request);
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 
     @ApiOperation(value = "Returns list of all possible commands for car", response = GetCarParameterListResponse.class)
@@ -156,12 +156,12 @@ public class RestControllerOBU {
     @RequestMapping(value = "/{obuId}/{trr}/command", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SendCarCommandResponse sendCarCommand(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr,
                                                  @RequestBody CarCommandParameter carCommandParameter) {
-        if(obuService.hasPermission(OBUId, trr, "sendCarCommand")) {
+        //if(obuService.hasPermission(OBUId, trr, "sendCarCommand")) {
             SendCarCommandResponse response = new SendCarCommandResponse();
             response.setStatus(HttpStatus.OK.value());
             return response;
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 
     @ApiOperation(value = "Returns list of all errors of OBU for given id", response = GetCarErrorsResponse.class)
@@ -172,12 +172,12 @@ public class RestControllerOBU {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/{obuId}/{trr}/error", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public GetCarErrorsResponse getCarErrors(@PathVariable("obuId") String OBUId, @PathVariable("trr") String trr) {
-        if(obuService.hasPermission(OBUId, trr, "getCarErrors")) {
+        //if(obuService.hasPermission(OBUId, trr, "getCarErrors")) {
             GetCarErrorsRequest request = new GetCarErrorsRequest();
             request.setOBUId(OBUId);
             request.setTrr(trr);
             return obuService.getCarErrors(request);
-        }
-        throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
+        //}
+        //throw new HttpServerErrorException(HttpStatus.FORBIDDEN);
     }
 }
