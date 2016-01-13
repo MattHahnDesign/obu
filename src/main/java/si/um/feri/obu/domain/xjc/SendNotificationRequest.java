@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 
 
 /**
@@ -43,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "message"
 })
 @XmlRootElement(name = "sendNotificationRequest")
-public class SendNotificationRequest {
+public class SendNotificationRequest implements Serializable {
 
     @XmlElement(name = "OBUId", required = true)
     protected String obuId;

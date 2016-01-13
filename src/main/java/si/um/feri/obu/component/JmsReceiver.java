@@ -1,7 +1,6 @@
 package si.um.feri.obu.component;
 
 import org.springframework.stereotype.Component;
-import si.um.feri.obu.domain.xjc.SendNotificationRequest;
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -10,7 +9,7 @@ import javax.naming.NamingException;
 import java.util.Properties;
 
 @Component
-public class JmsSender {
+public class JmsReceiver {
 
     public static final String QPID_ICF = "org.wso2.andes.jndi.PropertiesFileInitialContextFactory";
     private static final String CF_NAME_PREFIX = "connectionfactory.";
@@ -21,10 +20,9 @@ public class JmsSender {
     private static String CARBON_VIRTUAL_HOST_NAME = "carbon";
     private static String CARBON_DEFAULT_HOSTNAME = "svizec.informatika.uni-mb.si";
     private static String CARBON_DEFAULT_PORT = "5682";
-    String topicName = "obu2";
+    String topicName = "obu2/dars";
 
-
-    public void publishMessage() throws NamingException, JMSException {
+    public void subscribe() throws NamingException, JMSException {
         Properties properties = new Properties();
         properties.put(Context.INITIAL_CONTEXT_FACTORY, QPID_ICF);
         properties.put(CF_NAME_PREFIX + CF_NAME, getTCPConnectionURL(userName, password));
@@ -34,15 +32,20 @@ public class JmsSender {
         TopicConnectionFactory connFactory = (TopicConnectionFactory) ctx.lookup(CF_NAME);
         TopicConnection topicConnection = connFactory.createTopicConnection();
         topicConnection.start();
-        TopicSession topicSession = topicConnection.createTopicSession(false, QueueSession.AUTO_ACKNOWLEDGE);
+        TopicSession topicSession =
+                topicConnection.createTopicSession(false, QueueSession.AUTO_ACKNOWLEDGE);
         // Send message
         Topic topic = topicSession.createTopic(topicName);
-        // create the message to send
-        TextMessage textMessage = topicSession.createTextMessage("<a>Test Message</a>");
-        javax.jms.TopicPublisher topicPublisher = topicSession.createPublisher(topic);
-        topicPublisher.publish(textMessage);
-//        topicSession.close();
-       // topicConnection.close();
+        javax.jms.TopicSubscriber topicSubscriber = topicSession.createSubscriber(topic);
+        Message message = topicSubscriber.receive();
+        if (message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+            System.out.println("textMessage.getText() = " + textMessage.getText());
+        }
+        topicSubscriber.close();
+        topicSession.close();
+        topicConnection.stop();
+        topicConnection.close();
     }
     public String getTCPConnectionURL(String username, String password) {
         // amqp://{username}:{password}@carbon/carbon?brokerlist='tcp://{hostname}:{port}'

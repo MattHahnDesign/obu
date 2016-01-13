@@ -9,6 +9,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import si.um.feri.obu.component.JmsReceiver;
+import si.um.feri.obu.component.JmsSender;
 import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
@@ -49,6 +51,9 @@ public class OBUService {
 
     private DarsDataService dds;
     private SemicolonRezervacije park;
+
+    @Autowired
+    JmsReceiver receiver;
 
     @Autowired
     public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
