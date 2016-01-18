@@ -22,7 +22,7 @@ public class JmsDurableSubscriber {
     private static String CARBON_DEFAULT_HOSTNAME = "svizec.informatika.uni-mb.si";
     private static String CARBON_DEFAULT_PORT = "5682";
     String topicName = "obu2";
-    private String subscriptionId = "mySub1";
+    private String subscriptionId = "obu-subscriber";
     private boolean useListener = true;
     private int delayBetMessages = 200;
     private int messageCount = 100;
