@@ -4,11 +4,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JMSRunner implements CommandLineRunner {
+public class QueueRunner implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        JmsDurableSubscriber jmsDurableSubscriber= new JmsDurableSubscriber();
-        jmsDurableSubscriber.subscribe();
+
+        QueueMessageListener queueMessageListener = new QueueMessageListener();
+        queueMessageListener.registerSubscribers();
+
     }
 }

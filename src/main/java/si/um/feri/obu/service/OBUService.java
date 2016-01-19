@@ -9,8 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import si.um.feri.obu.component.JmsReceiver;
-import si.um.feri.obu.component.JmsSender;
+import si.um.feri.obu.component.JmsDurableSubscriber;
 import si.um.feri.obu.domain.model.Failure;
 import si.um.feri.obu.domain.model.Notification;
 import si.um.feri.obu.domain.model.OBU;
@@ -52,14 +51,14 @@ public class OBUService {
     private DarsDataService dds;
     private SemicolonRezervacije park;
 
-    @Autowired
-    JmsReceiver receiver;
+    private JmsDurableSubscriber jmsDurableSubscriber;
 
     @Autowired
-    public OBUService(OBURepository obuRepository, TrackRepository trackRepository) {
+    public OBUService(OBURepository obuRepository, TrackRepository trackRepository, JmsDurableSubscriber jmsDurableSubscriber) {
         this.obuRepository = obuRepository;
         this.trackRepository = trackRepository;
         this.restTemplate = new RestTemplate();
+        this.jmsDurableSubscriber = new JmsDurableSubscriber();
         this.dds = new DarsDataService_Service().getBasicHttpBindingDarsDataService();
         this.park = new Rezervacije().getBasicHttpBindingSemicolonRezervacije();
         populateOBUs();
@@ -227,8 +226,8 @@ public class OBUService {
         obu.getCarParameters().replace(CarParameter.ENGINE_TEMPERATURE, leftLimitTemp + new Random().nextFloat() * (rightLimitTemp - leftLimitTemp));
 
         Random r = new Random();
-        int magicNum = r.nextInt(100-1) + 1;
-        if(magicNum >= 99) {
+        int magicNum = r.nextInt(1000-1) + 1;
+        if(magicNum >= 9990) {
             magicNum = r.nextInt(5-1) +1;
 
             switch (magicNum) {
@@ -368,5 +367,9 @@ public class OBUService {
                 generateCarParams(obuId);
             }
         }
+    }
+
+    public HashMap<String, OBU> getOBUs() {
+        return OBUs;
     }
 }

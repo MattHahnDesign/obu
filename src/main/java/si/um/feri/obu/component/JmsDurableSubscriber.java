@@ -1,5 +1,7 @@
 package si.um.feri.obu.component;
 
+    import org.springframework.stereotype.Component;
+
     import javax.jms.Message;
     import javax.jms.QueueSession;
     import javax.jms.TextMessage;
@@ -10,6 +12,8 @@ package si.um.feri.obu.component;
     import javax.naming.Context;
     import javax.naming.InitialContext;
     import java.util.Properties;
+
+@Component
 public class JmsDurableSubscriber {
 
     public static final String ANDES_ICF = "org.wso2.andes.jndi.PropertiesFileInitialContextFactory";
@@ -24,8 +28,8 @@ public class JmsDurableSubscriber {
     String topicName = "obu2";
     private String subscriptionId = "obu-subscriber";
     private boolean useListener = true;
-    private int delayBetMessages = 200;
-    private int messageCount = 100;
+    private int delayBetMessages = 0;
+    private int messageCount = 100000;
     private SampleMessageListener messageListener;
 
     public void subscribe()  {
@@ -62,7 +66,6 @@ public class JmsDurableSubscriber {
                 messageListener = new SampleMessageListener(topicConnection,topicSession,topicSubscriber,
                         delayBetMessages,messageCount,subscriptionId);
                 topicSubscriber.setMessageListener(messageListener);
-                Thread.sleep(90*1000*60);
             }
         } catch (Exception e) {
             e.printStackTrace();
